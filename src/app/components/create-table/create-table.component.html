@@ -1,0 +1,87 @@
+<p class="display-6 mt-5 text-uppercase d-flex justify-content-between align-items-center">
+    Data Tables
+</p>
+
+<div class="alert alert-danger" role="alert" *ngIf="validationMessage">
+    {{ validationMessage }}
+</div>
+<div class="alert alert-success mt-1" role="alert" *ngIf="successMessage">
+    {{ successMessage }}
+</div>
+<div class="alert alert-danger" role="alert" *ngIf="errorMessage">
+    {{ errorMessage }}
+</div>
+
+
+<div class="card mt-4 bg-light fw-bold" style="background-color: #96DED1;">
+
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Create Table</h6>
+    </div>
+
+
+
+    <div class="card-body">
+        <form class="mt-2" [formGroup]="dataTablesForm" (ngSubmit)="onGenerateAndSubmit()">
+            <div class="form-group row">
+                <div class="col-sm-6 mb-3 mb-sm-0">
+                    <select class="form-select" aria-label="Default select example" formControlName="campaignName"
+                        [disabled]="isGoClicked">
+                        <option [value]="''" selected>Select Campaign</option>
+                        <option *ngFor="let campaign of campaignList" [value]="campaign.campaignName">
+                            {{ campaign.campaignName }}
+                        </option>
+                    </select>
+                </div>
+
+                <div class="col-sm-6">
+                    <input type="number" class="form-control" name="numberOfField" placeholder="Number of Field"
+                        formControlName="numberOfField" [disabled]="isGoClicked">
+                </div>
+            </div>
+            <div class="mt-5 d-flex justify-content-end">
+                <button *ngIf="!isGoClicked" type="submit" class="btn btn-success ms-2">Go</button>
+                <button *ngIf="isGoClicked" type="button" class="btn btn-danger ms-2" (click)="onReset()">Reset</button>
+            </div>
+        </form>
+    </div>
+    <div class="card-footer">
+        <small class="text-muted"><span class="text-danger">Default Columns: </span>
+            id,
+            did,
+            data_status,
+            br_id,
+            region,
+            territory,
+            area,
+            respondent_name,
+            cell_number,
+            data_date,
+            brand,
+            target_selector,
+            for_d,
+            generate_status,
+            is_called,
+            createdAt
+        </small>
+    </div>
+</div>
+
+<div class="card mt-5 fw-bold" style="background-color: #b3f1cd;" *ngIf="columnsFormArray.controls.length > 0">
+    <div class="card-body mt-3" style="color: #005b96;">
+        <span class="text-danger">*** </span>
+        <span>Insert column names</span>
+    </div>
+    <div class="card-body">
+        <form [formGroup]="columnsForm">
+            <div formArrayName="columns">
+                <div *ngFor="let control of columnsFormArray.controls; let i = index" class="col-sm-12 mt-2">
+                    <input type="text" class="form-control" [formControlName]="i" placeholder="Field Name {{i+1}}">
+                </div>
+            </div>
+            <div class="mt-3 d-flex justify-content-end">
+                <button type="button" class="btn btn-primary me-3 mb-3" (click)="onSave()">Save</button>
+            </div>
+        </form>
+    </div>
+</div>

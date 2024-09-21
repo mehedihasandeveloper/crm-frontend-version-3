@@ -1,0 +1,40 @@
+<p class="display-6 mt-5 text-uppercase d-flex justify-content-between align-items-center">
+    campaign
+ 
+</p>
+<div class="alert alert-success mt-1" role="alert" *ngIf="successMessage">
+    {{ successMessage }}
+  </div>
+  <div class="alert alert-danger" role="alert" *ngIf="errorMessage">
+    {{ errorMessage }}
+  </div>
+<div class="card-header mt-5">       
+    <h5 class="fw-bold" id="exampleModalLabel" style="color: #005b96;">Edit Campaign</h5>
+</div>
+<div class="card">
+    <div class="card-body">
+        <form class="mt-2" [formGroup]="campaignForm" (ngSubmit)="onSubmit()">
+            <div class="form-group row">
+                <div class="col-sm-4 mb-3 mb-sm-0">
+                    <input type="text" class="form-control" name="campaign_name" value="" placeholder="Campaign Title"
+                        formControlName="campaignName">
+                </div>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" name="campaign_id" value="" placeholder="Campaign Code"
+                        formControlName="campaignId">
+                </div>
+                <div class="col-sm-4">
+                    <select class="form-select form-select-md" formControlName="status">
+                        <option value="true">Active</option>
+                        <option value="false">Inactive</option>
+                    </select>
+                </div>
+            </div>
+            <div class="mt-5 d-flex justify-content-end">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal" [routerLink]="'/campaign'">Cancel</button>
+                <button type="submit" class="btn btn-primary ms-2" data-bs-toggle="modal"
+                    data-bs-target="#exampleModal">Update</button>
+            </div>
+        </form>
+    </div>
+</div>

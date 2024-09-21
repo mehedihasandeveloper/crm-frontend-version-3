@@ -1,0 +1,72 @@
+<p class="display-6 mt-5 text-uppercase d-flex justify-content-between align-items-center">
+    Logic Setting
+</p>
+
+<div class="card shadow mb-4 mt-5">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Campaign List</h6>
+    </div>
+    <p class="mt-4 ms-3 d-flex justify-content-between align-items-center">
+        <label class="d-flex align-items-center">
+            Show
+            <select name="dataTable_length" 
+                class="form-select form-control-sm mx-2"
+                (change)="onPageSizeChange($event)">
+                <option value="10">10</option>
+                <option value="25">25</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+            </select>
+            entries
+        </label>
+        <span class="me-3">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" (keyup)="onSearch($event)">
+        </span>
+    </p>
+    <div class="card-body">
+        <div class="table-responsive">
+            <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
+
+                <table class="table table-hover table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Code</th>
+                            <th>Name</th>
+                            <th>Per BA Call Target</th>
+                            <th>Number of Data</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let logic of logicList">
+                            <td>{{logic.campaignId}}</td>
+                            <td>{{logic.campaignName}}</td>
+                            <td>{{logic.callTarget}}</td>
+                            <td>{{dataCounts[logic.campaignName] || 0}}</td>
+                            <td>{{logic.status ? "Active" : "Inactive"}}</td>
+                            <td>
+                                <span class="ms-2"><i data-bs-toggle="tooltip" data-bs-placement="top"
+                                    title="Set Logic" class="fa-solid fa-gears element-class" style="color: #005b96;"
+                                        [routerLink]="['/logicManagement', logic.campaignName]"></i></span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <nav aria-label="Page navigation example" class="mt-5">
+                    <ul class="pagination justify-content-end">
+                        <li class="page-item" [class.disabled]="offset === 0">
+                            <a class="page-link" href="#" (click)="onPageChange(offset - 1)" tabindex="-1">Previous</a>
+                        </li>
+                        <li class="page-item element-class"><a class="page-link" (click)="onPageChange(0)">1</a></li>
+                        <li class="page-item element-class"><a class="page-link" (click)="onPageChange(1)">2</a></li>
+                        <li class="page-item element-class"><a class="page-link" (click)="onPageChange(2)">3</a></li>
+                        <li class="page-item element-class">
+                            <a class="page-link" href="#" (click)="onPageChange(offset + 1)">Next</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>

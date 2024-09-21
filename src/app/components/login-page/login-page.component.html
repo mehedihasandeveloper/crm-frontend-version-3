@@ -1,0 +1,59 @@
+<div class="styleBody">
+
+  <div class="login-container" style="padding-top: 0px;">
+    <div class="logo-container" style="margin-top: 0;">
+      <img src="transparent_logo.png" alt="Fifo Tech Logo" class="logo">
+    </div>
+    <div class="toggle-button" (click)="toggleLogin()">
+      <div class="plus-sign" [ngClass]="{ 'rotate': !isAgentLogin }">+</div>
+    </div>
+    <div *ngIf="isAgentLogin" class="login-form" [@slideInOut]="'in'">
+
+      <h1>Login As Agent</h1>
+      <div class="alert alert-danger" role="alert" *ngIf="errorMessage">
+        {{ errorMessage }}
+      </div>
+      <form id="agentLoginForm" [formGroup]="agentLoginForm" (ngSubmit)="onAgentSubmit()">
+        <select class="form-select mt-3 input-group common-style" aria-label="Default select example"
+          formControlName="loginShift">
+          <option [value]="''" selected>Select Shift</option>
+          <option>Morning</option>
+          <option>Evening</option>
+        </select>
+        <div class="input-group">
+          <input type="text" id="agentUsername" name="username" placeholder="Username" formControlName="agentId"
+            required autocomplete="username" class="ng-tns-c1896964789-0 ng-untouched ng-pristine ng-invalid">
+        </div>
+        <div class="input-group">
+          <input type="password" id="agentPassword" name="password" placeholder="Password" formControlName="password"
+            required autocomplete="current-password" class="ng-tns-c641215849-0 ng-untouched ng-pristine ng-invalid">
+        </div>
+        <select class="form-select mt-3 input-group common-style" aria-label="Default select example"
+          formControlName="campaignName">
+          <option [value]="''" selected>Select Campaign</option>
+          <option *ngFor="let campaign of campaignList" [value]="campaign.campaignName">{{ campaign.campaignName }}
+          </option>
+        </select>
+        <button type="submit">Login</button>
+      </form>
+    </div>
+    <div *ngIf="!isAgentLogin" class="login-form" [@slideInOut]="'in'">
+      <h1>Login As Admin</h1>
+      <div class="alert alert-danger" role="alert" *ngIf="errorMessage">
+        {{ errorMessage }}
+      </div>
+      <form id="adminLoginForm" [formGroup]="adminLoginForm" (ngSubmit)="onAdminSubmit()">
+        <div class="input-group">
+          <input type="text" id="adminUsername" name="username" placeholder="Username" formControlName="adminId"
+            required>
+        </div>
+        <div class="input-group">
+          <input type="password" id="adminPassword" name="password" placeholder="Password" formControlName="password"
+            required>
+        </div>
+        <button type="submit">Login</button>
+      </form>
+
+    </div>
+  </div>
+</div>

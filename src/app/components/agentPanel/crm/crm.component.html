@@ -1,0 +1,54 @@
+<div class="mt-5 text-end" >
+  <svg class="element-class" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" (click)="onReload()"><path fill="none" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m15.167 1l.598 1.118c.404.755.606 1.133.472 1.295c-.133.162-.573.031-1.454-.23A9.8 9.8 0 0 0 12 2.78c-5.247 0-9.5 4.128-9.5 9.22a8.97 8.97 0 0 0 1.27 4.61M8.834 23l-.598-1.118c-.404-.756-.606-1.134-.472-1.295c.133-.162.573-.032 1.454.23c.88.261 1.815.402 2.783.402c5.247 0 9.5-4.128 9.5-9.22a8.97 8.97 0 0 0-1.27-4.609" color="black"/></svg>
+<span> Reload</span>
+</div>
+<h3 class="text-uppercase mt-2">{{ campaignName }}</h3>
+<div class="card shadow mb-4 mt-4">
+  <div class="card-header py-3">
+    <h6 class="m-0 font-weight-bold text-primary">Search by Number</h6>
+  </div>
+  <div class="card-body">
+    <form [formGroup]="leadForm" (ngSubmit)="onSubmit()">
+      <div class="form-group row">
+        <div class="col-sm-6">
+          <input type="number" name="cell_number" value="" class="form-control" placeholder="Search by Number"
+            formControlName="cellNumber">
+        </div>
+        <div class="col-sm-4">
+          <input type="submit" name="search" value="Search Now" class="btn btn-md btn-primary">
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div *ngIf="leadData" class="card shadow mb-4 mt-4">
+  <div class="card-header py-3">
+    <h6 class="m-0 font-weight-bold text-primary">Campaign Name: {{ campaignName }}</h6>
+  </div>
+  <div class="card-body">
+    <div *ngIf="currentQuestion" class="qHide" id="">
+      <div class="alert alert-success alert-dismissible">{{ currentQuestion.title }}</div>
+      <form (ngSubmit)="submitAnswer()">
+        <div class="form-group mb-2" *ngIf="currentQuestion.type === 'Select Option'">
+          <select class="form-control" name="option_value" [(ngModel)]="selectedOption" required>
+            <option value="">Choose One</option>
+            <option *ngFor="let option of currentQuestion.options.split(',')" [value]="option">{{ option }}</option>
+          </select>
+        </div>
+
+
+
+        <div class="card mt-2">
+          <div class="card-body">
+            <span class="fw-bold">Instruction: </span>
+            {{ currentQuestion.instruction }}
+          </div>
+        </div>
+        <div class="mt-3 d-grid">
+          <input class="btn btn-md btn-success btn-block" type="submit" name="response_submit" value="Submit">
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

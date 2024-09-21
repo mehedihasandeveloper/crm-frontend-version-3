@@ -1,0 +1,25 @@
+<nav class="navbar navbar-expand-lg navbar-light shadow">
+  <div class="container-fluid">
+    <div class="d-flex justify-content-between w-100 align-items-center">
+     
+      <div class="clock-container text-center align-items-center">
+        <span class="clock font-weight-bold" style="font-size: 16px;">{{ currentTime }}</span>
+      </div>
+      <ul class="navbar-nav d-flex align-items-center mb-0">
+        <div class="text-uppercase font-weight-bold" style="font-size: 14px;">{{ username ?? agent }}</div>
+        <li class="nav-item me-3 me-lg-0 dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+            aria-expanded="false">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4" fill="black"/><path fill="black" fill-opacity="0.25" fill-rule="evenodd" d="M12 13c-3.67 0-6.68 2.42-6.976 5.5c-.026.275.2.5.476.5h13a.465.465 0 0 0 .476-.5C18.68 15.42 15.67 13 12 13" clip-rule="evenodd"/></svg>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+            <li (click)="logOut()"><a class="dropdown-item" href="#">Logout</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+

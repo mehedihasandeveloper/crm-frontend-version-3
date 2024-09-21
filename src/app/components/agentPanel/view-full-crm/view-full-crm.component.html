@@ -1,0 +1,13 @@
+<h3 class="text-uppercase text-muted mt-5">{{ campaignName }}</h3>
+
+<div class="card shadow mb-4 mt-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">CRM</h6>
+    </div>
+    <div class="card-body" *ngFor="let question of questionsList; let i = index">
+        <div class="mb-2">
+            <label for="">{{ i + 1 }}. {{ question.title }} ({{ question.options }})</label><br />
+            <small class="form-text text-muted">Instruction: {{ question.instruction }}</small><br />
+        </div>
+    </div>
+</div>

@@ -1,0 +1,98 @@
+<!-- <div class="mt-5 text-end" >
+    <svg class="element-class" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" (click)="onReload()"><path fill="none" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m15.167 1l.598 1.118c.404.755.606 1.133.472 1.295c-.133.162-.573.031-1.454-.23A9.8 9.8 0 0 0 12 2.78c-5.247 0-9.5 4.128-9.5 9.22a8.97 8.97 0 0 0 1.27 4.61M8.834 23l-.598-1.118c-.404-.756-.606-1.134-.472-1.295c.133-.162.573-.032 1.454.23c.88.261 1.815.402 2.783.402c5.247 0 9.5-4.128 9.5-9.22a8.97 8.97 0 0 0-1.27-4.609" color="black"/></svg>
+ <span> Reload</span>
+</div> -->
+<p class="display-6 mt-5 text-uppercase d-flex justify-content-between align-items-center">
+    question
+</p>
+
+<div class="card shadow mb-4 mt-5">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Add Questions</h6>
+    </div>
+    <div class="card-body">
+        <form [formGroup]="dataTablesForm" (ngSubmit)="onGenerateAndSubmit()">
+            <div class="form-group row">
+                <div class="col-sm-4 mb-3 mb-sm-0">
+                    <select class="form-select" formControlName="campaignName" aria-label="Default select example"
+                        [disabled]="isGoClicked">
+                        <option [value]="''" selected>Select Campaign</option>
+                        <option *ngFor="let campaign of campaignList" [value]="campaign.campaignName">
+                            {{ campaign.campaignName }}
+                        </option>
+                    </select>
+                </div>
+                <div class="col-sm-4 mb-3 mb-sm-0">
+                    <select class="form-select" formControlName="dataTable" aria-label="Default select example"
+                        [disabled]="isGoClicked">
+                        <option [value]="''" selected>Select Data Table</option>
+                        <option *ngFor="let dataTables of dataTablesList" [value]="dataTables.name">
+                            {{ dataTables.name }}
+                        </option>
+                    </select>
+                </div>
+                <div class="col-sm-4">
+                    <input type="number" class="form-control" formControlName="numberOfField"
+                        placeholder="Number of Questions" [disabled]="isGoClicked">
+                </div>
+            </div>
+            <div class="mt-5 d-flex justify-content-end">
+                <button *ngIf="!isGoClicked" type="submit" class="btn btn-success ms-2">Next</button>
+                <button *ngIf="isGoClicked" type="button" class="btn btn-danger ms-2" (click)="onReset()">Reset</button>
+            </div>
+
+
+
+            <div *ngIf="isGoClicked" class="mt-5 fw-bold">
+
+                <div formArrayName="questions">
+                    <div *ngFor="let question of questions.controls; let i=index" [formGroupName]="i">
+                        <div class="row">
+                            <div class="col-sm-6 mt-2">
+                                <input type="text" class="form-control" formControlName="title"
+                                    placeholder="Question Title">
+                            </div>
+                            <div class="col-sm-2 mt-2">
+                                <select class="form-select" formControlName="type" aria-label="Default select example">
+                                    <option [value]="''" selected>Choose Question Type</option>
+                                    <option>Select Option</option>
+                                    <option>Multi Select Option</option>
+                                    <option>Plain Text</option>
+                                    <option>Text Input</option>
+                                    <option>Number</option>
+                                    <option>Email</option>
+                                    <option>Textarea</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-4 mt-2">
+                                <input type="text" class="form-control" formControlName="options"
+                                    placeholder="Write all possible options">
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-sm-4 mt-2">
+                                <select class="form-select" formControlName="optionalValue"
+                                    aria-label="Default select example">
+                                    <option [value]="''" selected>---Choose Optional Value---</option>
+                                    <option>Respondent</option>
+                                    <option>Territory</option>
+                                    <option>Agent</option>
+                                    <option>Brand</option>
+                                    <option>Data Date</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-8 mt-2">
+                                <textarea class="form-control" formControlName="instruction" rows="3"
+                                    placeholder="Write down the instructions to agent"></textarea>
+                            </div>
+                        </div>
+                        <hr class="mt-4" style="background-color: #005b96;padding-top: 8px;">
+                    </div>
+                </div>
+                <div class="mt-3 d-flex justify-content-end">
+                    <button type="button" class="btn btn-primary me-3 mb-3" (click)="saveQuestions()">Save</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

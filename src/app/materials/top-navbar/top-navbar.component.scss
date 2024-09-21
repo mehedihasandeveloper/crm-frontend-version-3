@@ -1,0 +1,26 @@
+.navbar {
+    background-color: white; /* Or any other color you prefer */
+    z-index: 1000; /* Ensures the navbar stays on top */
+  }
+
+  .clock-container {
+    background-color: #f8f9fa;
+    padding: 10px;
+    border: 2px solid #dee2e6;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: fit-content;
+    margin: 0 auto;
+  }
+  
+  .clock {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #343a40;
+    letter-spacing: 1px;
+    font-family: 'Courier New', Courier, monospace;
+  }
+  

@@ -1,0 +1,50 @@
+<div class="container-fluid mt-5">
+
+    <h1 class="h3 mb-2 text-gray-800">
+        <span></span>
+    </h1>
+
+    <div class="card shadow mb-4 mt-5">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Update Logic </h6>
+        </div>
+        <div class="card-body">
+            <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                <div class="form-group">
+                    <label for="exampleInputEmail1" class="mb-3">{{ question.title }}</label>
+                    <div class="row" formArrayName="formData">
+                        <div *ngFor="let control of formDataArray.controls; let i = index" [formGroupName]="i"
+                            class="row">
+                            <div class="col-sm-4">
+                                <select formControlName="optionTitle" class="form-control mb-2">
+                                    <option *ngFor="let option of optionsArray" [value]="option">{{ option || 'Empty' }}
+                                    </option>
+                                </select>
+                            </div>
+
+                            <div class="col-sm-4">
+                                <select formControlName="questionNoToShow" class="form-control mb-2">
+                                    <option value="">Select Question Number to Show</option>
+                                    <option *ngFor="let question of questionsList; let j = index" [value]="question.id">
+                                        {{ j + 1 }}. {{ question.title }}
+                                    </option>
+                                </select>
+                            </div>
+
+                            <div class="col-sm-4">
+                                <select formControlName="isCompletedCall" class="form-control mb-2">
+                                    <option value="">Is Completed ???</option>
+                                    <option value="0">No</option>
+                                    <option value="1">Yes</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-end mt-3">
+                    <button type="submit" class="btn btn-md btn-primary">Set</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

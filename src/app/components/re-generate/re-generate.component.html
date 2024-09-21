@@ -1,0 +1,119 @@
+<div class="mt-5 text-end" >
+  <svg class="element-class" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" (click)="onReload()"><path fill="none" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m15.167 1l.598 1.118c.404.755.606 1.133.472 1.295c-.133.162-.573.031-1.454-.23A9.8 9.8 0 0 0 12 2.78c-5.247 0-9.5 4.128-9.5 9.22a8.97 8.97 0 0 0 1.27 4.61M8.834 23l-.598-1.118c-.404-.756-.606-1.134-.472-1.295c.133-.162.573-.032 1.454.23c.88.261 1.815.402 2.783.402c5.247 0 9.5-4.128 9.5-9.22a8.97 8.97 0 0 0-1.27-4.609" color="black"/></svg>
+<span> Reload</span>
+</div>
+<p class="display-6 mt-2 text-uppercase d-flex justify-content-between align-items-center">
+    Leads
+    <span>
+        <button type="button" class="btn" style="background-color: #005b96; color: white;" data-bs-toggle="modal"
+            data-bs-target="#exampleModal"><i class="fa-solid fa-cloud-arrow-up"></i> Upload</button>
+        <button type="button" class="btn btn-success ms-2" [routerLink]="'/generateLead'"><i
+                class="fa-brands fa-slack"></i> Generate</button>
+        <button type="button" class="btn btn-warning ms-2" [routerLink]="'/reGenerateLead'"><i
+                class="fa-brands fa-slack"></i> Regenerate</button>
+        <button type="button" class="btn btn-danger ms-2" [routerLink]="'/deleteLeads'"><i
+                class="fa-brands fa-slack"></i> Delete</button>
+    </span>
+</p>
+
+<!-- Modal for Bulk Upload -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Upload Leads</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form class="mt-4" (ngSubmit)="onUpload()" [formGroup]="campaignForm">
+           <!-- Conditionally Show the Download Link Based on Campaign Selection -->
+           <div *ngIf="selectedCampaignName" class="d-flex justify-content-end mb-3">
+            <a style="cursor: pointer;text-decoration: none;" class="text-primary" (click)="downloadCsvFile(selectedCampaignName)">
+                Click here to download the template
+            </a>
+          </div>
+          <div class="form-group row mt-2">
+            <div class="col-sm-6 mb-3 mb-sm-0">
+              <select class="form-select" aria-label="Default select example" formControlName="campaignName" (change)="onCampaignSelect($event)">
+                <option [value]="''" selected>Select Campaign</option>
+                <option *ngFor="let campaign of campaignList" [value]="campaign.campaignName">
+                  {{ campaign.campaignName }}
+                </option>
+              </select>
+            </div>
+            <div class="col-sm-6 mb-3 mb-sm-0">
+              <input class="form-control" type="file" id="formFile" (change)="onFileSelected($event)" accept=".csv">
+              <label for="formFile" class="form-label"><span class="text-danger">***</span> 
+                <span class="text-danger">Upload CSV file only</span></label>
+            </div>
+          </div>
+
+          <div *ngIf="uploadMessage" class="mt-2 alert alert-success successMessage">
+            <p>{{uploadMessage}}!</p>
+          </div>
+          <div class="alert alert-danger" role="alert" *ngIf="uploadFailedMessage">
+            {{ uploadFailedMessage }}
+          </div>
+
+          <div class="modal-footer mt-3">
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Save</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- /Modal -->
+<div class="card shadow mb-4 mt-5">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Regenerate Leads</h6>
+    </div>
+
+
+
+    <div class="card-body">
+        <form class="mt-2" [formGroup]="dataTablesForm">
+            <div class="form-group row" *ngIf="showInitialControls">
+                <div class="col-sm-6 mb-3 mb-sm-0">
+                    <select class="form-select" aria-label="Default select example" formControlName="campaignName"
+                        (change)="onCampaignSelected()">
+                        <option [value]="''" selected>Choose Campaign</option>
+                        <option *ngFor="let campaign of campaignList" [value]="campaign.campaignName">
+                            {{ campaign.campaignName }}
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <!-- Dynamic elements based on selection -->
+            <div class="mt-3 row" *ngIf="showGenerateControls">
+                <!-- Your dynamically shown elements, like a button and input -->
+                <div class="col-sm-6 mb-3 mb-sm-0">
+                    <select class="form-select" aria-label="Default select example" formControlName="campaignName">
+                        <option [value]="''" selected>Choose Campaign</option>
+                        <option *ngFor="let campaign of campaignList" [value]="campaign.campaignName">
+                            {{ campaign.campaignName }}
+                        </option>
+                    </select>
+                </div>
+                <div class="col-sm-6">
+                    <select class="form-select" aria-label="Default select example" formControlName="date"
+                        placeholder="Choose Date">
+                        <option [value]="''">Choose Date</option>
+                        <option *ngFor="let date of dataDates" [value]="date">
+                            {{ date }}
+                        </option>
+                    </select>
+                </div>
+                <!-- Target Selector Inputs -->
+                <div *ngFor="let target of targetSelectors" class="col-sm-4 mt-3">
+                    <input type="text" class="form-control" [formControlName]="target" [placeholder]="target" />
+                </div>
+                <div class="mt-3 d-flex justify-content-end">
+                    <button type="submit" class="btn btn-warning ms-2" style="font-weight: 500;"
+                        (click)="reGenerate()">ReGenerate</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
