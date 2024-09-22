@@ -48,12 +48,27 @@ export class CampaignComponent implements OnInit {
 
   ngOnInit(): void {
     this.getCampaignListWithPagination();
+    this.onCampaignTypeChange(); 
+  }
+
+  onCampaignTypeChange() {
+    const campaignType = this.campaignForm.get('campaignType')?.value;
+  
+    if (campaignType === 'Inbound') {
+      // Clear and disable callTarget if the campaign type is Inbound
+      this.campaignForm.get('callTarget')?.reset();
+      this.campaignForm.get('callTarget')?.disable();
+    } else {
+      // Enable callTarget if the campaign type is not Inbound
+      this.campaignForm.get('callTarget')?.enable();
+    }
   }
 
   campaignForm: FormGroup = new FormGroup({
+    campaignType: new FormControl('', Validators.required),
     campaignName: new FormControl('', Validators.required),
     campaignId: new FormControl('', Validators.required),
-    callTarget: new FormControl(Validators.required)
+    callTarget: new FormControl()
   })
 
   onSubmit() {

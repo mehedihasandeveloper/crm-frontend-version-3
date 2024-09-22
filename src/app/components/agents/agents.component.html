@@ -8,16 +8,16 @@
     <span> Reload</span>
 </div> -->
 
-<h3 class="display-6 mt-5 text-uppercase d-flex justify-content-between align-items-center gradient-text"
+<h3 class="display-6 mt-5 mb-5 text-uppercase d-flex justify-content-between align-items-center gradient-text"
     style="font-size: 30px;">
     agents
 
     <span>
      
-        <button type="button" class="btn" style="background-color: #005b96; color: white;" data-bs-toggle="modal"
+        <button type="button" class="btn btn-sm" style="background-color: #005b96; color: white;" data-bs-toggle="modal"
             data-bs-target="#exampleModal"><i class="fa-solid fa-cloud-arrow-up"></i> Bulk Upload</button>
 
-        <button type="button" class="btn btn-success ms-2" data-bs-toggle="modal" data-bs-target="#addNewModal"><i
+        <button type="button" class="btn btn-success ms-2 btn-sm" data-bs-toggle="modal" data-bs-target="#addNewModal"><i
                 class="fa-solid fa-circle-plus"></i> Add New</button>
       
     </span>
@@ -35,7 +35,7 @@
 
 <!-- Modal for Bulk Upload -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
+    <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <!-- Modal Title -->
@@ -64,8 +64,8 @@
                     </div>
 
                     <div class="modal-footer mt-5">
-                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary" data-bs-target="#exampleModal"
+                        <button type="button" class="btn btn-danger btn-sm" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary btn-sm" data-bs-target="#exampleModal"
                             data-bs-toggle="modal">Save</button>
                     </div>
                 </form>
@@ -79,7 +79,7 @@
 <!-- Modal for Add New -->
 <div class="modal fade" id="addNewModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 
-    <div class="modal-dialog modal-xl">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <!-- Modal Title -->
@@ -92,7 +92,7 @@
                         <div class="col-sm-3 mb-3 mb-sm-0">
                             <select class="form-select" formControlName="type" aria-label="Default select example"
                                 required>
-                                <option [value]="''" selected>Choose Agent Category</option>
+                                <option [value]="''" selected>Agent Category</option>
                                 <option>Physical</option>
                                 <option>Virtual</option>
 
@@ -117,21 +117,21 @@
                                 formControlName="joiningDate">
                         </div>
                         <div class="col-sm-3 mb-3 mb-sm-0">
-                            <input type="number" class="form-control" name="bacn" value="" placeholder="Bank A/C Number"
+                            <input type="number" class="form-control" name="bacn" value="" placeholder="Bank A/C"
                                 required="" formControlName="bankAcNumber">
                         </div>
                         <div class="col-sm-3">
                             <input type="number" class="form-control" name="nacn" value=""
-                                placeholder="Nagad A/C Number" required="" formControlName="nagadAcNumber">
+                                placeholder="Nagad A/C" required="" formControlName="nagadAcNumber">
                         </div>
                         <div class="col-sm-3">
                             <input type="number" class="form-control" name="bkacn" value=""
-                                placeholder="Bkash A/C Number" required="" formControlName="bkashAcNumber">
+                                placeholder="Bkash A/C" required="" formControlName="bkashAcNumber">
                         </div>
                     </div>
                     <div class="modal-footer mt-5">
-                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary" data-bs-toggle="modal"
+                        <button type="button" class="btn btn-danger btn-sm" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary btn-sm" data-bs-toggle="modal"
                             data-bs-target="#addNewModal">Save</button>
                     </div>
                 </form>
@@ -152,7 +152,7 @@
 </div>
 
 
-<div class="card shadow mb-4 mt-5">
+<div class="card shadow mb-4">
     <div class="card-header py-3">
         <h6 class="m-0 font-weight-bold">Agent List</h6>
     </div>
@@ -212,9 +212,9 @@
                                                 cannot be undone!
                                             </div>
                                             <div class="modal-footer d-flex justify-content-between">
-                                                <button type="button" class="btn btn-secondary"
+                                                <button type="button" class="btn btn-secondary btn-sm"
                                                     data-bs-dismiss="modal">Close</button>
-                                                <button type="button" class="btn btn-danger"
+                                                <button type="button" class="btn btn-danger btn-sm"
                                                     (click)="deleteAgent(agent.id)"
                                                     data-bs-dismiss="modal">Confirm</button>
                                             </div>

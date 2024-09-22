@@ -373,4 +373,16 @@ export class HttpService {
     return this.httpClient.get<number>(`${this.baseURL}/cc/totalCampaigns`);
   }
 
+  getTotalDataTables(): Observable<number> {
+    return this.httpClient.get<number>(`${this.baseURL}/dt/totalDataTables`);
+  }
+
+  getTotalInbound(): Observable<number> {
+    return this.httpClient.get<number>(`${this.baseURL}/cc/totalInbound`);
+  }
+
+  getTotalOutbound(): Observable<number> {
+    return this.httpClient.get<number>(`${this.baseURL}/cc/totalOutbound`);
+  }
+
 }

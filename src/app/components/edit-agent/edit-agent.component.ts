@@ -57,21 +57,17 @@ export class EditAgentComponent {
     createAt: new FormControl('')
   })
 
-  
+
 
   onSubmit() {
     this.http.updateAgent(this.agentForm.value).subscribe(
       response => {
-    
-        this.successMessage = "Update successful!";
-        this.errorMessage = '';
-        this.agentForm.reset();
+        alert("Update successful!");
+        this.router.navigateByUrl('/agents')
       },
       error => {
         console.error('Upload failed!', error);
-        
-        this.successMessage = '';
-        this.errorMessage = 'Update failed!';
+        alert('Update failed!');
       }
     );
   }

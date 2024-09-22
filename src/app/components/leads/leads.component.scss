@@ -116,3 +116,10 @@ height: 50px;
     transform: rotate(1080deg) scale(2, 1.5) translate(0px, 25px);
   }
 }
+
+.gradient-text {
+  background: linear-gradient(to right, #005b96, black);
+  -webkit-background-clip: text;
+  color: transparent;
+  font-style: italic;
+}

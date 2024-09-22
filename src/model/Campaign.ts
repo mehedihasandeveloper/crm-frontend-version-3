@@ -4,5 +4,6 @@ export interface Campaign {
     campaignId: string,
     callTarget: number,
     status: boolean,
+    campaignType: string,
     createAt: string;
 }
