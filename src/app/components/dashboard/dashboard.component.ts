@@ -12,6 +12,7 @@ export class DashboardComponent implements OnInit{
   totalDataTables: number | undefined;
   totalInbound: number | undefined;
   totalOutbound: number | undefined;
+  campaignData: { campaignTitle: string, totalLeads: number, generatedLeads: number, calledLeads: number }[] = [];
 
   constructor(public http: HttpService) {}
  
@@ -21,6 +22,8 @@ export class DashboardComponent implements OnInit{
     this.fetchTotalDataTables();
     this.fetchTotalInbound();
     this.fetchTotalOutbound();
+    this.fetchCampaignData();
+    
   }
 
   fetchTotalAgents(): void {
@@ -51,7 +54,7 @@ export class DashboardComponent implements OnInit{
         this.totalDataTables = data;
       },
       (error) => {
-        console.error('Error fetching total agents:', error);
+        console.error('Error fetching total data tables:', error);
       }
     );
   }
@@ -79,5 +82,18 @@ export class DashboardComponent implements OnInit{
       }
     );
   }
+
+  fetchCampaignData(): void {
+    this.http.getCampaignData().subscribe(
+      (data) => {
+        console.log('Campaign Data:', data); // Add this to inspect the data
+        this.campaignData = data;
+      },
+      (error) => {
+        console.error('Error fetching campaign data:', error);
+      }
+    );
+  }
+  
 
 }

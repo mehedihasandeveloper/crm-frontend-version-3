@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders, HttpParams, HttpRequest } from '@angular/commo
 import { Injectable } from '@angular/core';
 import { Campaign } from '../../model/Campaign';
 import { DataTables } from '../../model/DataTables';
-import { catchError, Observable, throwError } from 'rxjs';
+import { catchError, map, Observable, throwError } from 'rxjs';
 import { Question } from '../../model/Question';
 import { Agent } from '../../model/Agent';
 
@@ -384,5 +384,10 @@ export class HttpService {
   getTotalOutbound(): Observable<number> {
     return this.httpClient.get<number>(`${this.baseURL}/cc/totalOutbound`);
   }
+
+  getCampaignData(): Observable<{ campaignTitle: string, totalLeads: number, generatedLeads: number, calledLeads: number }[]> {
+    return this.httpClient.get<{ campaignTitle: string, totalLeads: number, generatedLeads: number, calledLeads: number }[]>(`${this.baseURL}/dynamic/dashboard`);
+  }
+  
 
 }

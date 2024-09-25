@@ -1,24 +1,28 @@
-<h3 class="text-uppercase text-muted mt-5">{{ campaignName }}</h3>
+<h3 class="display-6 mt-5 text-uppercase d-flex justify-content-between align-items-center gradient-text"
+    style="font-size: 30px;">
+    {{ campaignName }}
+ 
+</h3>
 
 <div class="card shadow mb-4 mt-4">
     <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">CRM</h6>
+        <h6 class="m-0 font-weight-bold">CRM</h6>
     </div>
     <div class="card-body" *ngFor="let question of questionsList">
         <div class="mb-4">
             <label for="">{{ question.title }} ({{ question.options }})</label><br />
             <small class="form-text text-muted">Instruction: {{ question.instruction }}</small><br />
             <div *ngIf="question.noLogicSet">
-                <span (click)="navigateToSetLogic(question)" class="mt-2 btn btn-md btn-warning me-2">
+                <span (click)="navigateToSetLogic(question)" class="mt-2 btn btn-md btn-warning me-2 btn-sm">
                     <i class="fas fa-tasks mr-2"></i> Set Logic
                 </span>
             </div>
             <div *ngIf="question.yesLogicSet">
                 <!-- <span class="mt-2 btn btn-md btn-primary me-2" [routerLink]="['/updateLogics/', question.id]"> -->
-                    <span class="mt-2 btn btn-md btn-primary me-2" (click)="navigateToUpdateLogic(question)">
+                    <span class="mt-2 btn btn-md btn-primary me-2 btn-sm" (click)="navigateToUpdateLogic(question)">
                     <i class="fas fa-tasks mr-2"></i> Update Logic
                 </span>
-                <span class="mt-2 btn btn-md btn-danger" (click)="clearLogic(question.id)">
+                <span class="mt-2 btn btn-md btn-danger btn-sm" (click)="clearLogic(question.id)">
                     <i class="fas fa-tasks mr-2"></i> Clear Logics
                 </span>
             </div>

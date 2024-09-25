@@ -106,6 +106,8 @@ export class GenerateLeadsComponent implements OnInit{
       response => {
         console.log('Data updated successfully', response);
         alert('Data generated successfully!');
+        this.route.navigateByUrl('/leads');
+
       },
       error => {
         console.error('Error updating data', error);
