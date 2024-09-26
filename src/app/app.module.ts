@@ -29,6 +29,7 @@ import { LoginPageComponent } from './components/login-page/login-page.component
 import { ViewFullCRMComponent } from './components/agentPanel/view-full-crm/view-full-crm.component';
 import { CRMComponent } from './components/agentPanel/crm/crm.component';
 import { QcPanelComponent } from './components/qc-panel/qc-panel.component';
+import { InBoundViewComponentComponent } from './components/agentPanel/in-bound-view-component/in-bound-view-component.component';
 
 
 @NgModule({
@@ -58,6 +59,7 @@ import { QcPanelComponent } from './components/qc-panel/qc-panel.component';
     ViewFullCRMComponent,
     CRMComponent,
     QcPanelComponent,
+    InBoundViewComponentComponent,
    
 
   ],

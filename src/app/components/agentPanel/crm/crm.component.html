@@ -27,36 +27,7 @@
     </form>
   </div>
 </div>
-<!-- 
-<div *ngIf="leadData" class="card shadow mb-4 mt-4">
-  <div class="card-header py-3">
-    <h6 class="m-0 font-weight-bold">Campaign Name: {{ campaignName }}</h6>
-  </div>
-  <div class="card-body">
-    <div *ngIf="currentQuestion" class="qHide" id="">
-      <div class="alert alert-primary alert-dismissible">{{ currentQuestion.title }}</div>
-      <form (ngSubmit)="submitAnswer()">
-        <div class="form-group mb-2" *ngIf="currentQuestion.type === 'Select Option'">
-          <select class="form-control" name="option_value" [(ngModel)]="selectedOption" required>
-            <option value="">Choose One</option>
-            <option *ngFor="let option of currentQuestion.options.split(',')" [value]="option">{{ option }}</option>
-          </select>
-        </div>
 
-        <div class="card mt-2">
-          <div class="card-body">
-            <span class="fw-bold">Instruction: </span>
-            {{ currentQuestion.instruction }}
-          </div>
-        </div>
-        <div class="mt-3 d-grid">
-          <input class="btn btn-md btn-success btn-block" type="submit" name="response_submit" value="Submit">
-        </div>
-      </form>
-    </div>
-  </div>
-</div>
- -->
 
  <div *ngIf="leadData" class="card shadow mb-4 mt-4">
   <div class="card-header py-3">
