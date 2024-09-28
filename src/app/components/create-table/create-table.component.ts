@@ -82,51 +82,6 @@ export class CreateTableComponent implements OnInit {
     this.isGoClicked = false;
   }
 
-  // onSave() {
-  //   if (this.dataTablesForm.invalid || this.columnsForm.invalid) {
-  //     console.error('Form is invalid');
-  //     this.validationMessage = 'Form is invalid';
-  //     return;
-  //   }
-
-  //   const tableName = this.dataTablesForm.get('campaignName')?.value;
-  //   const columns = this.columnsFormArray.value;
-
-  //   const formData = {
-  //     tableName: tableName,
-  //     columns: columns
-  //   };
-
-  //   console.log('Form Data before submission:', formData);
-
-  //   // Trigger the HTTP POST request here
-  //   this.http.addDataTable(this.dataTablesForm.value).subscribe(
-  //     (result: any) => {
-  //       console.log('Submission result:', result);
-
-  //       this.http.addDynamicTable(formData).subscribe(
-  //         (result: any) => {
-  //           console.log('Table creation result:', result);
-  //           alert('Table creation successful!');
-  //           this.successMessage = 'Table creation successful!';
-  //           this.route.navigateByUrl('/dataTables');
-
-  //           // Handle successful table creation
-  //         },
-  //         (error: any) => {
-  //           console.error('Table creation error:', error);
-  //           alert('Table creation failed!');
-  //           this.errorMessage = 'Table creation failed!';
-
-  //         }
-  //       );
-  //     },
-  //     (error: any) => {
-  //       console.error('Submission error:', error);
-  //     }
-  //   );
-  // }
-
   onSave() {
     // List of predefined column names
     const predefinedColumns = [
