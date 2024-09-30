@@ -8,11 +8,13 @@
     <div class="card-header mt-3">
         <h6 class="m-0 font-weight-bold">QC by Number</h6>
     </div>
+
+
     <div class="card-body">
-        <form>
+        <form [formGroup]="leadForm" (ngSubmit)="onSubmit()">
             <div class="form-group row">
                 <div class="col-sm-3">
-                    <select name="campaign_name" class="form-control">
+                    <select name="campaign_name" class="form-control" formControlName="campaignName">
                         <option [value]="''" selected>Select Campaign</option>
                         <option *ngFor="let campaign of campaignList" [value]="campaign.campaignName">
                             {{ campaign.campaignName }}
@@ -20,11 +22,12 @@
                     </select>
                 </div>
                 <div class="col-sm-3">
-                    <input type="number" name="" value="" class="form-control" placeholder="Search by Number">
+                    <input type="number" name="" value="" class="form-control" placeholder="Search by Number"
+                        formControlName="cellNumber">
                 </div>
                 <div class="col-sm-3">
                     <input type="date" class="form-control" placeholder="date of call" aria-label="date"
-                        aria-describedby="basic-addon1">
+                        aria-describedby="basic-addon1" formControlName="date">
                 </div>
                 <div class="col-sm-1">
                     <input type="submit" name="search" value="Search" class="btn btn-md btn-primary">
@@ -33,141 +36,126 @@
         </form>
     </div>
 </div>
-<div class="row">
-    <div class="col-sm-8 col-sm-7">
-        <div class="card shadow mb-4">
-            <!-- Card Header - Dropdown -->
-            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                <h6 class="m-0 font-weight-bold">Campaign Questions</h6>
+<div> 
+<!-- <div *ngIf="numberExist"> -->
+    <div class="row">
+        <div class="col-xl-8 col-sm-7">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold">Campaign Questions</h6>
+                </div>
+                <div class="card-body">
 
+                    <table class="table table-hover table-bordered">
+                        <thead>
+                            <tr>
+                                <th class="text-center">Qno</th>
+                                <th class="text-center">Questions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let question of questionList">
+                                <td>
+                                    {{ question.qno }}
+                                </td>
+                                <td>
+                                    {{ question.title }}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-            <!-- Card Body -->
-            <div class="card-body">
-                <div class="chart-area">
-                    <div class="chartjs-size-monitor">
-                        <div class="chartjs-size-monitor-expand">
-                            <div class=""></div>
+        </div>
+
+        <div class="col-xl-4 col-sm-5">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold">Call Records</h6>
+                </div>
+                <div class="card-body">
+                    <div class="audio-player">
+                        <audio #audio (canplay)="initializeAudio()"></audio>
+                        
+                        <div class="controls">
+                            <button class="icon" (click)="rewindAudio()">
+                                &#9664;&#9664; <!-- Backward icon -->
+                            </button>
+                            <button class="icon" (click)="playAudio()">
+                                &#9658; <!-- Play icon -->
+                            </button>
+                            <button class="icon" (click)="pauseAudio()">
+                                &#10074;&#10074; <!-- Pause icon -->
+                            </button>
+                            <button class="icon" (click)="forwardAudio()">
+                                &#9654;&#9654; <!-- Forward icon -->
+                            </button>
                         </div>
-                        <div class="chartjs-size-monitor-shrink">
-                            <div class=""></div>
+                        
+                        <div class="progress">
+                            <input type="range" min="0" [max]="audioDuration" [(ngModel)]="currentTime" (input)="seekAudio($event)" />
+                        </div>
+                        
+                        <div class="time-info">
+                            {{ formatTime(currentTime) }} / {{ formatTime(audioDuration) }}
                         </div>
                     </div>
-                    <canvas id="myAreaChart" width="629" height="320"
-                        style="display: block; width: 629px; height: 320px;" class="chartjs-render-monitor"></canvas>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="col-xl-4 col-lg-5">
-        <div class="card shadow mb-4">
-            <!-- Card Header - Dropdown -->
-            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                <h6 class="m-0 font-weight-bold">Call Records</h6>
-
-            </div>
-            <!-- Card Body -->
-            <div class="card-body">
-                <div class="chart-area">
-                    <div class="chartjs-size-monitor">
-                        <div class="chartjs-size-monitor-expand">
-                            <div class=""></div>
-                        </div>
-                        <div class="chartjs-size-monitor-shrink">
-                            <div class=""></div>
-                        </div>
-                    </div>
-                    <canvas id="myAreaChart" width="629" height="320"
-                        style="display: block; width: 629px; height: 320px;" class="chartjs-render-monitor"></canvas>
-                </div>
-            </div>
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold">Customer Response</h6>
         </div>
-    </div>
-</div>
+        <div class="card-body">
 
-<div class="card shadow mb-4">
-    <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold">Customer Response</h6>
-    </div>
-    <div class="card-body">
 
-        <div class="table-responsive">
             <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
 
                 <div class="row">
                     <div class="col-sm-12">
-                        <table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0"
-                            role="grid" aria-describedby="dataTable_info" style="width: 100%;">
-                            <thead>
-                                <tr role="row">
-                                    <th class="sorting sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1"
-                                        colspan="1" aria-sort="ascending"
-                                        aria-label="Question: activate to sort column descending" style="width: 68px;">
-                                        Question</th>
-                                    <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1"
-                                        aria-label="Question: activate to sort column ascending" style="width: 68px;">
-                                        Question</th>
-                                    <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1"
-                                        aria-label="Question: activate to sort column ascending" style="width: 68px;">
-                                        Question</th>
-                                    <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1"
-                                        aria-label="Question: activate to sort column ascending" style="width: 68px;">
-                                        Question</th>
-                                    <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1"
-                                        aria-label="Question: activate to sort column ascending" style="width: 68px;">
-                                        Question</th>
-                                    <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1"
-                                        aria-label="Question: activate to sort column ascending" style="width: 68px;">
-                                        Question</th>
-                                    <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1"
-                                        aria-label="Question: activate to sort column ascending" style="width: 68px;">
-                                        Question</th>
-                                    <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1"
-                                        aria-label="Question: activate to sort column ascending" style="width: 68px;">
-                                        Question</th>
+                        <div class="table-responsive">
+                            <table class="lead-table">
+                                <thead>
+                                    <tr role="row">
+                                        <th *ngFor="let question of questions" class="text-center">{{ question }}</th>
+                                        <th class="text-center">Action</th>
+                                    </tr>
+                                </thead>
 
-                                    <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1"
-                                        aria-label="Action: activate to sort column ascending" style="width: 49px;">
-                                        Action</th>
-                                </tr>
-                            </thead>
+                                <tbody>
+                                    <tr>
+                                        <td *ngFor="let answer of answers" class="text-center">{{ answer || '---' }}
+                                        </td>
+                                        <td class="text-center">
+                                            <a href="#edit"><i class="far fa-edit #005b96"></i></a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
 
-                            <tbody>
-                                <tr class="odd">
-                                    <td class="sorting_1">Answer</td>
-                                    <td>Answer</td>
-                                    <td>Answer</td>
-                                    <td>Answer</td>
-                                    <td>Answer</td>
-                                    <td>Answer</td>
-                                    <td>Answer</td>
-                                    <td>Answer</td>
-                                    <td>
-                                        <span><a href="#edit"><i class="far fa-edit text-primary"></i></a></span>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        </div>
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
 
-<div class="card shadow mb-4">
-    <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold">QC Rating</h6>
-    </div>
-    <div class="card-body">
 
-        <div class="table-responsive">
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold">QC Rating</h6>
+        </div>
+        <div class="card-body">
             <table class="table table-hover table-bordered">
                 <thead>
                     <tr>
-                        <th class="text-primary text-center">Quality Criteria</th>
-                        <th class="text-primary text-center">Marks</th>
+                        <th class="text-center">Quality Criteria</th>
+                        <th class="text-center">Marks</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -200,7 +188,6 @@
                         <td>
                             <input type="number" id="greetings" name="greetings" class="form-control">
                         </td>
-
                     </tr>
                     <tr>
                         <td>
@@ -211,7 +198,6 @@
                         <td>
                             <input type="number" id="greetings" name="greetings" class="form-control">
                         </td>
-
                     </tr>
                     <tr>
                         <td>
@@ -222,7 +208,6 @@
                         <td>
                             <input type="number" id="greetings" name="greetings" class="form-control">
                         </td>
-
                     </tr>
                     <tr>
                         <td>
@@ -233,7 +218,6 @@
                         <td>
                             <input type="number" id="greetings" name="greetings" class="form-control">
                         </td>
-
                     </tr>
                     <tr>
                         <td>
@@ -244,7 +228,6 @@
                         <td>
                             <input type="number" id="greetings" name="greetings" class="form-control">
                         </td>
-
                     </tr>
                     <tr>
                         <td>
@@ -255,7 +238,6 @@
                         <td>
                             <input type="number" id="greetings" name="greetings" class="form-control">
                         </td>
-
                     </tr>
                     <tr>
                         <td>
@@ -266,7 +248,6 @@
                         <td>
                             <input type="number" id="greetings" name="greetings" class="form-control">
                         </td>
-
                     </tr>
                     <tr>
                         <td>
@@ -281,13 +262,13 @@
                     <tr>
                         <td>
                             <label for="greetings" style="font-weight: 600;">Poor objection & Negotiation skill
-                                <span class="text-muted ms-2">[Yes(0.00) / Need Improvement(-10) / No(-20.00)]</span>
+                                <span class="text-muted ms-2">[Yes(0.00) / Need Improvement(-10) /
+                                    No(-20.00)]</span>
                             </label>
                         </td>
                         <td>
                             <input type="number" id="greetings" name="greetings" class="form-control">
                         </td>
-
                     </tr>
                     <tr>
                         <td>
@@ -298,7 +279,6 @@
                         <td>
                             <input type="number" id="greetings" name="greetings" class="form-control">
                         </td>
-
                     </tr>
                     <tr>
                         <td>
@@ -309,46 +289,39 @@
                         <td>
                             <input type="number" id="greetings" name="greetings" class="form-control">
                         </td>
-
                     </tr>
                     <tr>
                         <td>
                             <label for="greetings" style="font-weight: 600;">Fatal
-                                <span class="text-muted ms-2"> [Yes(-100)/ No(0)]</span>
+                                <span class="text-muted ms-2"> [Yes(-100) / No(0)]</span>
                             </label>
                         </td>
                         <td>
                             <input type="number" id="greetings" name="greetings" class="form-control">
                         </td>
-
                     </tr>
-
                 </tbody>
             </table>
-
             <div class="input-group mb-3">
                 <span class="input-group-text" id="inputGroup-sizing-default">Suggestions</span>
                 <input type="text" class="form-control" aria-label="Sizing example input"
                     aria-describedby="inputGroup-sizing-default">
             </div>
             <div class="form-group row justify-content-end">
-
-                <div class="col-sm-3">
+                <div class="col-sm-5">
                     <div class="input-group input-group-sm mb-3">
-                        <span class="input-group-text" id="inputGroup-sizing-sm">Small</span>
+                        <span class="input-group-text" id="inputGroup-sizing-sm">Signature by QC Inspector </span>
                         <input type="text" class="form-control" aria-label="Sizing example input"
                             aria-describedby="inputGroup-sizing-sm">
                     </div>
                 </div>
                 <div class="col-sm-3 ">
-                    <button type="button" class="btn btn-danger btn-sm me-2" data-bs-dismiss="modal">Close</button>
+                    <!-- <button type="button" class="btn btn-danger btn-sm me-2" data-bs-dismiss="modal">Close</button> -->
                     <button type="submit" class="btn btn-primary btn-sm" data-bs-toggle="modal"
                         data-bs-target="#addNewModal">Save</button>
                 </div>
-
-
             </div>
-
         </div>
     </div>
 </div>
+

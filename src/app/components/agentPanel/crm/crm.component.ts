@@ -99,57 +99,6 @@ export class CRMComponent implements OnInit {
     }
   }
 
-  // submitAnswer() {
-  //   this.answers.push({
-  //     questionId: this.currentQuestion.id,
-  //     questionTitle: this.currentQuestion.title,
-  //     answer: this.selectedOption
-  //   });
-
-  //   this.leadData[this.currentQuestion.qno] = this.selectedOption;
-
-  //   const currentLogic = this.logicList.find(
-  //     logic => logic.questionId == this.currentQuestion.id && logic.optionTitle == this.selectedOption
-  //   );
-
-  //   if (currentLogic) {
-  //     const nextQuestionId = currentLogic.questionNoToShow;
-  //     const nextQuestion = this.questionList.find(q => q.id == nextQuestionId);
-
-  //     if (nextQuestion) {
-  //       this.currentQuestion = nextQuestion;
-  //       this.selectedOption = '';
-
-  //       if (currentLogic.isCompletedCall === "1") {
-  //         this.leadData['is_called'] = '1';
-
-  //         setTimeout(() => {
-  //           console.log('Survey Answers:', this.answers);
-  //           this.updateLeadData();
-  //           alert('Survey Ended');
-  //           this.ngOnInit();
-  //         }, 500);
-  //       }
-  //     } else {
-
-  //     }
-  //   } else {
-  //     this.questionIndex++;
-  //     this.displayNextQuestion();
-  //   }
-
-  //   if (currentLogic && currentLogic.isCompletedCall === "0") {
-  //     this.leadData['is_called'] = '';
-  //     this.surveyEnded = true;
-  //     setTimeout(() => {
-  //       console.log('Survey Answers:', this.answers);
-  //       this.updateLeadData();
-  //       alert('Survey Ended');
-  //       this.ngOnInit();
-  //     }, 500);
-  //   }
-  // }
-
   updateLeadData() {
     this.http.updateLeadByCellNumber(this.campaignName, this.cellNumber, this.leadData)
       .subscribe(response => {
@@ -159,111 +108,37 @@ export class CRMComponent implements OnInit {
       });
   }
 
-  textInput: string = '';      // For text input questions
-  textAreaInput: string = '';  // For textarea questions
-  plainTextInput: string = ''; // For plain text questions (default to 'N/A')
-
-
-  //  selectedOption: string = '';  // For Select Option
-  selectedOptions: string[] = [];  // For Multi Select Option
-  // textInput: string = '';  // For Text Input
-  numberInput: number = 0;  // For Number Input
-  emailInput: string = '';  // For Email Input
-  textareaInput: string = '';  // For Textarea
-
-  // submitAnswer() {
-  //   let answer;
-
-  //   // Handle multiple select option answers
-  //   if (this.currentQuestion.type === 'Multi Select Option') {
-  //     answer = this.selectedOptions.join(',');  // Store multi-select options as comma-separated values
-  //   } else {
-  //     answer = this.selectedOption;
-  //   }
-
-  //   // Store the answer
-  //   this.answers.push({
-  //     questionId: this.currentQuestion.id,
-  //     questionTitle: this.currentQuestion.title,
-  //     answer: answer
-  //   });
-
-  //   // Update leadData with the answer
-  //   this.leadData[this.currentQuestion.qno] = answer;
-
-  //   // Handle logic to find the next question based on the selected answer
-  //   const currentLogic = this.logicList.find(
-  //     logic => logic.questionId == this.currentQuestion.id && logic.optionTitle == answer.split(',')[0]  // Only check the first option for logic in Multi Select Option
-  //   );
-
-  //   if (currentLogic) {
-  //     const nextQuestionId = currentLogic.questionNoToShow;
-  //     const nextQuestion = this.questionList.find(q => q.id == nextQuestionId);
-
-  //     if (nextQuestion) {
-  //       this.currentQuestion = nextQuestion;
-  //       this.selectedOption = '';  // Reset for next question
-  //       this.selectedOptions = [];
-
-  //       if (currentLogic.isCompletedCall === "1") {
-  //         this.leadData['is_called'] = '1';
-
-  //         setTimeout(() => {
-  //           console.log('Survey Answers:', this.answers);
-  //           this.updateLeadData();
-  //           alert('Survey Ended');
-  //           this.ngOnInit();
-  //         }, 500);
-  //       }
-  //     }
-  //   } else {
-  //     this.questionIndex++;
-  //     this.displayNextQuestion();
-  //   }
-
-  //   // Check for end of survey
-  //   if (currentLogic && currentLogic.isCompletedCall === "0") {
-  //     this.leadData['is_called'] = '';
-  //     this.surveyEnded = true;
-  //     setTimeout(() => {
-  //       console.log('Survey Answers:', this.answers);
-  //       this.updateLeadData();
-  //       alert('Survey Ended');
-  //       this.ngOnInit();
-  //     }, 500);
-  //   }
-  // }
-
+  textInput: string = '';      
+  textAreaInput: string = '';  
+  plainTextInput: string = '';
+  selectedOptions: string[] = []; 
+  numberInput: number = 0;
+  emailInput: string = '';
+  textareaInput: string = '';
 
   submitAnswer() {
     let answer;
 
-    // Handle multiple select option answers
     if (this.currentQuestion.type === 'Multi Select Option') {
-      answer = this.selectedOptions.join(',');  // Store multi-select options as comma-separated values
+      answer = this.selectedOptions.join(',');
     } else {
       answer = this.selectedOption;
     }
 
-    // Store the answer
     this.answers.push({
       questionId: this.currentQuestion.id,
       questionTitle: this.currentQuestion.title,
       answer: answer
     });
 
-    // Update leadData with the answer
     this.leadData[this.currentQuestion.qno] = answer;
 
-    // Find the logic for the current question
     let currentLogic;
     if (this.currentQuestion.type === 'Textarea' || this.currentQuestion.type === 'Text Input') {
-      // For Textarea or Text Input, use only the questionId to find the next question
       currentLogic = this.logicList.find(
         logic => logic.questionId == this.currentQuestion.id
       );
     } else {
-      // For other types of questions (e.g., Select Option), match both questionId and optionTitle
       currentLogic = this.logicList.find(
         logic => logic.questionId == this.currentQuestion.id && logic.optionTitle == answer.split(',')[0]  // Only check the first option for logic in Multi Select Option
       );
@@ -294,7 +169,6 @@ export class CRMComponent implements OnInit {
       this.displayNextQuestion();
     }
 
-    // Check for end of survey
     if (currentLogic && currentLogic.isCompletedCall === "0") {
       this.leadData['is_called'] = '';
       this.surveyEnded = true;
