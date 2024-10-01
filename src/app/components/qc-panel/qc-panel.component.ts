@@ -10,7 +10,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
   styleUrl: './qc-panel.component.scss'
 })
 export class QcPanelComponent implements OnInit {
-
+  audioSource: string | undefined;
   campaignList: any[] = [];
   questionList: any[] = [];
   questionAnswers: any[] = [];
@@ -22,6 +22,12 @@ export class QcPanelComponent implements OnInit {
   date!: string;
   leadData: any;
   numberExist: boolean = false;
+  mp3FilePage!: any;  // Variable to store the response
+  directory = '';             // You can bind these to form controls in the HTML
+  msisdn = '';
+  page = 0;
+  size = 10;                  // Default page size
+  errorMessage = '';
   constructor(public http: HttpService, private route: Router, private storageService: StorageService) {
     this.leadForm = new FormGroup({
       cellNumber: new FormControl('', Validators.required),
@@ -45,7 +51,25 @@ export class QcPanelComponent implements OnInit {
     console.log(this.campaignName);
     console.log(this.date);
     this.getLeadbyCellNumber();
+    this.searchFiles();
 
+  }
+
+
+  playFile(fileName: string): void {
+    const fullPath = `${this.date}/${fileName}`;
+    this.audioSource = `http://43.231.78.77:5010/download-mp3?fileName=${encodeURIComponent(fullPath)}`;
+  }
+
+  searchFiles(): void {
+    this.http.searchMP3Files(this.date, this.cellNumber, 0, 10).subscribe({
+      next: (response) => {
+        this.mp3FilePage = response;
+      },
+      error: (error) => {
+        this.errorMessage = `Error: ${error.message}`;
+      }
+    });
   }
 
   getAllCampaign() {
@@ -144,4 +168,6 @@ export class QcPanelComponent implements OnInit {
         const target = event.target as HTMLInputElement;
         this.audioElement.nativeElement.currentTime = Number(target.value);
     }
+
+    
 }

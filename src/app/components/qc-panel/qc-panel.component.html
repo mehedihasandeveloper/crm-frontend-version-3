@@ -36,8 +36,8 @@
         </form>
     </div>
 </div>
-<div> 
-<!-- <div *ngIf="numberExist"> -->
+<div>
+    <!-- <div *ngIf="numberExist"> -->
     <div class="row">
         <div class="col-xl-8 col-sm-7">
             <div class="card shadow mb-4">
@@ -74,254 +74,246 @@
                     <h6 class="m-0 font-weight-bold">Call Records</h6>
                 </div>
                 <div class="card-body">
-                    <div class="audio-player">
-                        <audio #audio (canplay)="initializeAudio()"></audio>
-                        
-                        <div class="controls">
-                            <button class="icon" (click)="rewindAudio()">
-                                &#9664;&#9664; <!-- Backward icon -->
-                            </button>
-                            <button class="icon" (click)="playAudio()">
-                                &#9658; <!-- Play icon -->
-                            </button>
-                            <button class="icon" (click)="pauseAudio()">
-                                &#10074;&#10074; <!-- Pause icon -->
-                            </button>
-                            <button class="icon" (click)="forwardAudio()">
-                                &#9654;&#9654; <!-- Forward icon -->
-                            </button>
-                        </div>
-                        
-                        <div class="progress">
-                            <input type="range" min="0" [max]="audioDuration" [(ngModel)]="currentTime" (input)="seekAudio($event)" />
-                        </div>
-                        
-                        <div class="time-info">
-                            {{ formatTime(currentTime) }} / {{ formatTime(audioDuration) }}
+                    <div *ngIf="mp3FilePage">
+                        <ul>
+                          <li *ngFor="let file of mp3FilePage.content">
+                            <strong>File Name:</strong> {{ file.fileName }} <br>
+                            <strong>Duration:</strong> {{ file.duration }} seconds <br>
+                            <strong>Agent ID:</strong> {{ file.agentId }} <br/><br/>
+                            <span class="mt-2 text-end" >
+                                <button (click)="playFile(file.fileName)" class="btn btn-primary btn-sm">Play</button>
+                            </span>
+                            
+                          </li>
+                        </ul>
+                      </div>
+                      <div *ngIf="audioSource">
+                        <audio controls>
+                          <source [src]="audioSource" type="audio/mpeg">
+                          Your browser does not support the audio element.
+                        </audio>
+                      </div>
+                </div>
+            </div>
+        </div>  
+
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold">Customer Response</h6>
+            </div>
+            <div class="card-body">
+
+
+                <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
+
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="table-responsive">
+                                <table class="lead-table">
+                                    <thead>
+                                        <tr role="row">
+                                            <th *ngFor="let question of questions" class="text-center">{{ question }}
+                                            </th>
+                                            <th class="text-center">Action</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        <tr>
+                                            <td *ngFor="let answer of answers" class="text-center">{{ answer || '---' }}
+                                            </td>
+                                            <td class="text-center">
+                                                <a href="#edit"><i class="far fa-edit #005b96"></i></a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                            </div>
+
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-
-    <div class="card shadow mb-4">
-        <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold">Customer Response</h6>
-        </div>
-        <div class="card-body">
 
 
-            <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
 
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="table-responsive">
-                            <table class="lead-table">
-                                <thead>
-                                    <tr role="row">
-                                        <th *ngFor="let question of questions" class="text-center">{{ question }}</th>
-                                        <th class="text-center">Action</th>
-                                    </tr>
-                                </thead>
-
-                                <tbody>
-                                    <tr>
-                                        <td *ngFor="let answer of answers" class="text-center">{{ answer || '---' }}
-                                        </td>
-                                        <td class="text-center">
-                                            <a href="#edit"><i class="far fa-edit #005b96"></i></a>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold">QC Rating</h6>
+            </div>
+            <div class="card-body">
+                <table class="table table-hover table-bordered">
+                    <thead>
+                        <tr>
+                            <th class="text-center">Quality Criteria</th>
+                            <th class="text-center">Marks</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <label for="greetings" style="font-weight: 600;">Greetings
+                                    <span class="text-muted ms-2">[Yes(0) / No(-5)]</span>
+                                </label>
+                            </td>
+                            <td>
+                                <input type="number" id="greetings" name="greetings" class="form-control">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label for="greetings" style="font-weight: 600;">Liveliness
+                                    <span class="text-muted ms-2">[Yes(10) / Need Improvement(5) / No(0)]</span>
+                                </label>
+                            </td>
+                            <td>
+                                <input type="number" id="greetings" name="greetings" class="form-control">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label for="greetings" style="font-weight: 600;">Pronunciation
+                                    <span class="text-muted ms-2">[Yes(10) / Need Improvement(5) / No(0)]</span>
+                                </label>
+                            </td>
+                            <td>
+                                <input type="number" id="greetings" name="greetings" class="form-control">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label for="greetings" style="font-weight: 600;">Mumbling
+                                    <span class="text-muted ms-2">[Yes(10) / Need Improvement(5) / No(0)]</span>
+                                </label>
+                            </td>
+                            <td>
+                                <input type="number" id="greetings" name="greetings" class="form-control">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label for="greetings" style="font-weight: 600;">Pace
+                                    <span class="text-muted ms-2">[Yes(10) / Need Improvement(5) / No(0)]</span>
+                                </label>
+                            </td>
+                            <td>
+                                <input type="number" id="greetings" name="greetings" class="form-control">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label for="greetings" style="font-weight: 600;">Pitch
+                                    <span class="text-muted ms-2">[Yes(10) / Need Improvement(5) / No(0)]</span>
+                                </label>
+                            </td>
+                            <td>
+                                <input type="number" id="greetings" name="greetings" class="form-control">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label for="greetings" style="font-weight: 600;">Courtesy
+                                    <span class="text-muted ms-2">[Yes(10) / Need Improvement(5) / No(0)]</span>
+                                </label>
+                            </td>
+                            <td>
+                                <input type="number" id="greetings" name="greetings" class="form-control">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label for="greetings" style="font-weight: 600;">Hold Process
+                                    <span class="text-muted ms-2">[Yes(0) / No(-5)]</span>
+                                </label>
+                            </td>
+                            <td>
+                                <input type="number" id="greetings" name="greetings" class="form-control">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label for="greetings" style="font-weight: 600;">Taking Permission
+                                    <span class="text-muted ms-2">[Yes(10) / Need Improvement(5) / No(0)]</span>
+                                </label>
+                            </td>
+                            <td>
+                                <input type="number" id="greetings" name="greetings" class="form-control">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label for="greetings" style="font-weight: 600;">Acknowledgement and follow-up
+                                    <span class="text-muted ms-2">[Yes(10) / Need Improvement(5) / No(0)]</span>
+                                </label>
+                            </td>
+                            <td>
+                                <input type="number" id="greetings" name="greetings" class="form-control">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label for="greetings" style="font-weight: 600;">Poor objection & Negotiation skill
+                                    <span class="text-muted ms-2">[Yes(0.00) / Need Improvement(-10) /
+                                        No(-20.00)]</span>
+                                </label>
+                            </td>
+                            <td>
+                                <input type="number" id="greetings" name="greetings" class="form-control">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label for="greetings" style="font-weight: 600;">CRM
+                                    <span class="text-muted ms-2"> [Yes(20) / Need Improvement(10) / No(0)]</span>
+                                </label>
+                            </td>
+                            <td>
+                                <input type="number" id="greetings" name="greetings" class="form-control">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label for="greetings" style="font-weight: 600;">Closing
+                                    <span class="text-muted ms-2"> [Yes(0) / No(-5)]</span>
+                                </label>
+                            </td>
+                            <td>
+                                <input type="number" id="greetings" name="greetings" class="form-control">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label for="greetings" style="font-weight: 600;">Fatal
+                                    <span class="text-muted ms-2"> [Yes(-100) / No(0)]</span>
+                                </label>
+                            </td>
+                            <td>
+                                <input type="number" id="greetings" name="greetings" class="form-control">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="inputGroup-sizing-default">Suggestions</span>
+                    <input type="text" class="form-control" aria-label="Sizing example input"
+                        aria-describedby="inputGroup-sizing-default">
+                </div>
+                <div class="form-group row justify-content-end">
+                    <div class="col-sm-5">
+                        <div class="input-group input-group-sm mb-3">
+                            <span class="input-group-text" id="inputGroup-sizing-sm">Signature by QC Inspector </span>
+                            <input type="text" class="form-control" aria-label="Sizing example input"
+                                aria-describedby="inputGroup-sizing-sm">
                         </div>
-
+                    </div>
+                    <div class="col-sm-3 ">
+                        <!-- <button type="button" class="btn btn-danger btn-sm me-2" data-bs-dismiss="modal">Close</button> -->
+                        <button type="submit" class="btn btn-primary btn-sm" data-bs-toggle="modal"
+                            data-bs-target="#addNewModal">Save</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-
-
-    <div class="card shadow mb-4">
-        <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold">QC Rating</h6>
-        </div>
-        <div class="card-body">
-            <table class="table table-hover table-bordered">
-                <thead>
-                    <tr>
-                        <th class="text-center">Quality Criteria</th>
-                        <th class="text-center">Marks</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>
-                            <label for="greetings" style="font-weight: 600;">Greetings
-                                <span class="text-muted ms-2">[Yes(0) / No(-5)]</span>
-                            </label>
-                        </td>
-                        <td>
-                            <input type="number" id="greetings" name="greetings" class="form-control">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label for="greetings" style="font-weight: 600;">Liveliness
-                                <span class="text-muted ms-2">[Yes(10) / Need Improvement(5) / No(0)]</span>
-                            </label>
-                        </td>
-                        <td>
-                            <input type="number" id="greetings" name="greetings" class="form-control">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label for="greetings" style="font-weight: 600;">Pronunciation
-                                <span class="text-muted ms-2">[Yes(10) / Need Improvement(5) / No(0)]</span>
-                            </label>
-                        </td>
-                        <td>
-                            <input type="number" id="greetings" name="greetings" class="form-control">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label for="greetings" style="font-weight: 600;">Mumbling
-                                <span class="text-muted ms-2">[Yes(10) / Need Improvement(5) / No(0)]</span>
-                            </label>
-                        </td>
-                        <td>
-                            <input type="number" id="greetings" name="greetings" class="form-control">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label for="greetings" style="font-weight: 600;">Pace
-                                <span class="text-muted ms-2">[Yes(10) / Need Improvement(5) / No(0)]</span>
-                            </label>
-                        </td>
-                        <td>
-                            <input type="number" id="greetings" name="greetings" class="form-control">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label for="greetings" style="font-weight: 600;">Pitch
-                                <span class="text-muted ms-2">[Yes(10) / Need Improvement(5) / No(0)]</span>
-                            </label>
-                        </td>
-                        <td>
-                            <input type="number" id="greetings" name="greetings" class="form-control">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label for="greetings" style="font-weight: 600;">Courtesy
-                                <span class="text-muted ms-2">[Yes(10) / Need Improvement(5) / No(0)]</span>
-                            </label>
-                        </td>
-                        <td>
-                            <input type="number" id="greetings" name="greetings" class="form-control">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label for="greetings" style="font-weight: 600;">Hold Process
-                                <span class="text-muted ms-2">[Yes(0) / No(-5)]</span>
-                            </label>
-                        </td>
-                        <td>
-                            <input type="number" id="greetings" name="greetings" class="form-control">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label for="greetings" style="font-weight: 600;">Taking Permission
-                                <span class="text-muted ms-2">[Yes(10) / Need Improvement(5) / No(0)]</span>
-                            </label>
-                        </td>
-                        <td>
-                            <input type="number" id="greetings" name="greetings" class="form-control">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label for="greetings" style="font-weight: 600;">Acknowledgement and follow-up
-                                <span class="text-muted ms-2">[Yes(10) / Need Improvement(5) / No(0)]</span>
-                            </label>
-                        </td>
-                        <td>
-                            <input type="number" id="greetings" name="greetings" class="form-control">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label for="greetings" style="font-weight: 600;">Poor objection & Negotiation skill
-                                <span class="text-muted ms-2">[Yes(0.00) / Need Improvement(-10) /
-                                    No(-20.00)]</span>
-                            </label>
-                        </td>
-                        <td>
-                            <input type="number" id="greetings" name="greetings" class="form-control">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label for="greetings" style="font-weight: 600;">CRM
-                                <span class="text-muted ms-2"> [Yes(20) / Need Improvement(10) / No(0)]</span>
-                            </label>
-                        </td>
-                        <td>
-                            <input type="number" id="greetings" name="greetings" class="form-control">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label for="greetings" style="font-weight: 600;">Closing
-                                <span class="text-muted ms-2"> [Yes(0) / No(-5)]</span>
-                            </label>
-                        </td>
-                        <td>
-                            <input type="number" id="greetings" name="greetings" class="form-control">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label for="greetings" style="font-weight: 600;">Fatal
-                                <span class="text-muted ms-2"> [Yes(-100) / No(0)]</span>
-                            </label>
-                        </td>
-                        <td>
-                            <input type="number" id="greetings" name="greetings" class="form-control">
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            <div class="input-group mb-3">
-                <span class="input-group-text" id="inputGroup-sizing-default">Suggestions</span>
-                <input type="text" class="form-control" aria-label="Sizing example input"
-                    aria-describedby="inputGroup-sizing-default">
-            </div>
-            <div class="form-group row justify-content-end">
-                <div class="col-sm-5">
-                    <div class="input-group input-group-sm mb-3">
-                        <span class="input-group-text" id="inputGroup-sizing-sm">Signature by QC Inspector </span>
-                        <input type="text" class="form-control" aria-label="Sizing example input"
-                            aria-describedby="inputGroup-sizing-sm">
-                    </div>
-                </div>
-                <div class="col-sm-3 ">
-                    <!-- <button type="button" class="btn btn-danger btn-sm me-2" data-bs-dismiss="modal">Close</button> -->
-                    <button type="submit" class="btn btn-primary btn-sm" data-bs-toggle="modal"
-                        data-bs-target="#addNewModal">Save</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-

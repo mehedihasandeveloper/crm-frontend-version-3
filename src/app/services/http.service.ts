@@ -8,6 +8,24 @@ import { Agent } from '../../model/Agent';
 
 const AUTH_API = 'http://localhost:8080/api/auth/';
 
+interface MP3FileInfo {
+  dateTime: string;
+  phoneNumber: string;
+  campaignName: string;
+  agentId: string;
+  fileName: string;
+  duration: number;
+}
+
+interface MP3FilePage {
+  content: MP3FileInfo[];
+  totalElements: number;
+  totalPages: number;
+  size: number;
+  first: boolean;
+  last: boolean;
+}
+
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 };
@@ -41,6 +59,9 @@ export class HttpService {
   private agentPanelURL = 'http://localhost:8080/api/ap';
 
   private dynamicUrl = 'http://localhost:8080/dynamic';
+
+
+  private mp3Url = 'https://voicelog.fifo-tech.com/search';
 
   getQuestionListWithPagination(offset: number, pageSize: number): Observable<any> {
     return this.httpClient.get(`${this.questionTableURL}/pagination/${offset}/${pageSize}`);
@@ -388,6 +409,15 @@ export class HttpService {
   getCampaignData(): Observable<{ campaignTitle: string, totalLeads: number, generatedLeads: number, calledLeads: number }[]> {
     return this.httpClient.get<{ campaignTitle: string, totalLeads: number, generatedLeads: number, calledLeads: number }[]>(`${this.baseURL}/dynamic/dashboard`);
   }
+
   
+  searchMP3Files(directory: string, msisdn: string, page: number, size: number): Observable<MP3FilePage> {
+    let params = new HttpParams().set('directory', directory)
+      .set('msisdn', msisdn)
+      .set('page', page.toString())
+      .set('size', size.toString());
+
+    return this.httpClient.get<MP3FilePage>(this.mp3Url, { params });
+  }
 
 }
