@@ -29,6 +29,22 @@
     text-overflow: ellipsis;
   }
   
-
+  .editable {
+    cursor: pointer;
+  }
+  
+  .editable-input {
+    width: 100%;
+    border: none;
+    background-color: transparent;
+    text-align: center;
+    outline: none;
+  }
+  
+  .form-control:focus {
+    box-shadow: none;
+    border-color: #005b96;
+  }
+  
 
     
