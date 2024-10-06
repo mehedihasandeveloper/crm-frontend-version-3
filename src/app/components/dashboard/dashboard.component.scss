@@ -5,5 +5,40 @@
     font-style: italic;
   }
 
-
+  .inline-cards {
+    display: flex; /* Flex container to align cards inline */
+    gap: 15px; /* Add space between cards */
+    margin-left: 20px; /* Add space between the dashboard text and cards */
+  }
+  
+  .stat-card {
+    background-color: #1e88e5; /* Blue background for the cards */
+    color: white;
+    border-radius: 5px;
+    text-align: center;
+    padding: 10px;
+    width: 90px; /* Width of each card */
+    height: 70px; /* Height of each card */
+    transition: transform 0.3s ease, background-color 0.3s ease;
+  
+    &:hover {
+      transform: translateY(-3px); /* Hover effect */
+      background-color: #1565c0;   /* Darker shade on hover */
+    }
+  
+    h4 {
+      font-size: 12px;  /* Smaller font size for labels */
+      margin-bottom: 5px;
+    }
+  
+    p {
+      font-size: 16px;  /* Larger font for values */
+      font-weight: bold;
+      margin: 0;
+    }
+  }
+  
+  body {
+    background-color: #f9f9f9; /* Light background for contrast */
+  }
   

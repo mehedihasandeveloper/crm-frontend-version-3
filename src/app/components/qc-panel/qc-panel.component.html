@@ -9,7 +9,6 @@
         <h6 class="m-0 font-weight-bold">QC by Number</h6>
     </div>
 
-
     <div class="card-body">
         <form [formGroup]="leadForm" (ngSubmit)="onSubmit()">
             <div class="form-group row">
@@ -37,352 +36,415 @@
     </div>
 </div>
 <div>
-    <!-- <div *ngIf="numberExist"> -->
-    <div class="row">
-        <div class="col-xl-8 col-sm-7">
-            <div class="card shadow mb-4">
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold">Campaign Questions</h6>
-                </div>
-                <div class="card-body">
-
-                    <table class="table table-hover table-bordered">
-                        <thead>
-                            <tr>
-                                <th class="text-center">Qno</th>
-                                <th class="text-center">Questions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let question of questionList">
-                                <td>
-                                    {{ question.qno }}
-                                </td>
-                                <td>
-                                    {{ question.title }}
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-xl-4 col-sm-5">
-            <div class="card shadow mb-4">
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold">Call Records</h6>
-                </div>
-                <div class="card-body">
-                    <div *ngIf="mp3FilePage">
-                        <ul class="list-group">
-                            <li *ngFor="let file of mp3FilePage.content" class="list-group-item d-flex flex-column align-items-start mb-3 shadow-sm rounded">
-                                <div class="w-100">
-                                    <p class="mb-2"><strong>File Name:</strong> {{ file.fileName }}</p>
-                                    <p class="mb-1"><strong>Duration:</strong> {{ file.duration }} seconds</p>
-                                    <p class="mb-1"><strong>Agent ID:</strong> {{ file.agentId }}</p>
-                                </div>
-                                <div class="mt-2 text-end w-100">
-                                    <button (click)="playFile(file.fileName)" class="btn btn-primary btn-sm">Play</button>
-                                </div>
-                            </li>
-                        </ul>
+    <div *ngIf="numberExist">
+        <div class="row">
+            <div class="col-xl-8 col-sm-7">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <h6 class="m-0 font-weight-bold">Campaign Questions</h6>
                     </div>
-                    <div *ngIf="audioSource">
-                        <audio controls>
-                            <source [src]="audioSource" type="audio/mpeg">
-                            Your browser does not support the audio element.
-                        </audio>
+                    <div class="card-body">
+
+                        <table class="table table-hover table-bordered">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">Qno</th>
+                                    <th class="text-center">Questions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let question of questionList">
+                                    <td>
+                                        {{ question.qno }}
+                                    </td>
+                                    <td>
+                                        {{ question.title }}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
 
-    <!-- <div class="card shadow mb-4">
-        <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold">Customer Response</h6>
-        </div>
-        <div class="card-body">
+            <div class="col-xl-4 col-sm-5">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <h6 class="m-0 font-weight-bold">Call Records</h6>
+                    </div>
+                    <div class="card-body">
+                        <div *ngIf="mp3FilePage">
+                            <ul class="list-group">
+                                <li *ngFor="let file of mp3FilePage.content"
+                                    class="list-group-item d-flex flex-column align-items-start mb-2 shadow-sm rounded">
+                                    <div class="w-100">
+                                        <p class="mb-2"><strong>File Name:</strong> {{ file.fileName }}</p>
+                                        <p class="mb-1"><strong>Agent ID:</strong> {{ file.agentId }}</p>
+                                    </div>
+                                    <div class="mt-2 text-end w-100">
+                                        <button (click)="playFile(file.fileName, file.agentId)"
+                                            class="btn btn-dark btn-sm">Play</button>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
 
+                        <div *ngIf="audioSource" class="audio-container">
+                            <!-- Audio player -->
+                            <audio controls (loadedmetadata)="onLoadedMetadata($event)">
+                                <source [src]="audioSource" type="audio/mpeg">
+                                Your browser does not support the audio element.
+                            </audio>
 
-            <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
-
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="table-responsive">
-                            <table class="lead-table">
-                                <thead>
-                                    <tr role="row">
-                                        <th *ngFor="let question of questions" class="text-center">{{ question }}
-                                        </th>
-                                        <th class="text-center">Action</th>
-                                    </tr>
-                                </thead>
-
-                                <tbody>
-                                    <tr>
-                                        <td *ngFor="let answer of answers" class="text-center">{{ answer || '---' }}
-                                        </td>
-                                        <td class="text-center">
-                                           
-                                            <a [routerLink]="'/qcedit'"><i class="far fa-edit #005b96"></i></a>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-
+                            <!-- Tick mark for marking the action -->
+                            <div class="tick-container">
+                                <span (click)="assignAgentId()" [class.disabled]="!metadataLoaded"
+                                    data-bs-toggle="tooltip" data-bs-placement="top"
+                                    title="Click to mark it successful">
+                                    <svg class="me-2 element-class" xmlns="http://www.w3.org/2000/svg" width="24"
+                                        height="24" viewBox="0 0 1024 1024">
+                                        <path fill="green"
+                                            d="M512 64a448 448 0 1 1 0 896a448 448 0 0 1 0-896m-55.808 536.384l-99.52-99.584a38.4 38.4 0 1 0-54.336 54.336l126.72 126.72a38.27 38.27 0 0 0 54.336 0l262.4-262.464a38.4 38.4 0 1 0-54.272-54.336z" />
+                                    </svg>
+                                </span>
+                            </div>
                         </div>
 
                     </div>
                 </div>
             </div>
         </div>
-    </div> -->
 
-    <div class="card shadow mb-4">
-        <div class="card-header py-3">
-          <h6 class="m-0 font-weight-bold">Customer Response</h6>
-        </div>
-        <div class="card-body">
-          <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
-            <div class="row">
-              <div class="col-sm-12">
-                <div class="table-responsive">
-                  <table class="lead-table">
-                    <thead>
-                      <tr role="row">
-                        <th *ngFor="let question of questions" class="text-center">{{ question }}</th>
-                        <th class="text-center">Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td *ngFor="let answer of answers; let i = index" class="text-center">
-                          <span *ngIf="!editing[i]" (click)="editCell(i)" class="editable">{{ answer || '---' }}</span>
-                          <input *ngIf="editing[i]" [(ngModel)]="answers[i]" class="form-control editable-input" />
-                        </td>
-                        <td class="text-center">
-                          <a *ngIf="!editingMode" (click)="editRow()"><i class="far fa-edit #005b96"></i></a>
-                          <a *ngIf="editingMode" (click)="saveRow()"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none"><path stroke="black" stroke-linecap="round" stroke-width="2" d="m2 14l3.233 2.425a1 1 0 0 0 1.374-.167L15 6"/><path fill="black" fill-rule="evenodd" d="m9.874 15.78l1.729 1.383a2 2 0 0 0 2.797-.295l8.374-10.235a1 1 0 0 0-1.548-1.266L12.852 15.6l-1.711-1.369z" clip-rule="evenodd"/></g></svg></a>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold">Customer Response</h6>
             </div>
-          </div>
+            <div class="card-body">
+                <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="table-responsive">
+                                <table class="lead-table">
+                                    <thead>
+                                        <tr role="row">
+                                            <th *ngFor="let question of questions" class="text-center">{{ question }}
+                                            </th>
+                                            <th class="text-center">Action</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        <tr>
+                                            <td *ngFor="let question of questions; let i = index" class="text-center">
+                                                <ng-container *ngIf="isEditMode; else viewMode">
+                                                    <ng-container [ngSwitch]="questionList[i].type">
+                                                        <!-- Plain Text -->
+                                                        <ng-container *ngSwitchCase="'Plain Text'">
+                                                            <input type="text" [(ngModel)]="answers[i]" />
+                                                        </ng-container>
+
+                                                        <!-- Text Input -->
+                                                        <ng-container *ngSwitchCase="'Text Input'">
+                                                            <input type="text" [(ngModel)]="answers[i]" />
+                                                        </ng-container>
+
+                                                        <!-- Select Option -->
+                                                        <ng-container *ngSwitchCase="'Select Option'">
+                                                            <select [(ngModel)]="answers[i]">
+                                                                <option
+                                                                    *ngFor="let option of questionList[i].options.split(',')"
+                                                                    [value]="option">{{ option }}</option>
+                                                            </select>
+                                                        </ng-container>
+
+                                                        <!-- Multi Select Option -->
+                                                        <ng-container *ngSwitchCase="'Multi Select Option'">
+                                                            <select multiple [(ngModel)]="answers[i]">
+                                                                <option
+                                                                    *ngFor="let option of questionList[i].options.split(',')"
+                                                                    [value]="option">{{ option }}</option>
+                                                            </select>
+                                                        </ng-container>
+
+                                                        <!-- Number -->
+                                                        <ng-container *ngSwitchCase="'Number'">
+                                                            <input type="number" [(ngModel)]="answers[i]" />
+                                                        </ng-container>
+
+                                                        <!-- Email -->
+                                                        <ng-container *ngSwitchCase="'Email'">
+                                                            <input type="email" [(ngModel)]="answers[i]" />
+                                                        </ng-container>
+
+                                                        <!-- Textarea -->
+                                                        <ng-container *ngSwitchCase="'Textarea'">
+                                                            <textarea [(ngModel)]="answers[i]"></textarea>
+                                                        </ng-container>
+
+                                                        <!-- Default -->
+                                                        <ng-container *ngSwitchDefault>
+                                                            <input type="text" [(ngModel)]="answers[i]" />
+                                                        </ng-container>
+                                                    </ng-container>
+                                                </ng-container>
+
+                                                <ng-template #viewMode>
+                                                    {{ answers[i] || '---' }}
+                                                </ng-template>
+                                            </td>
+                                            <td class="text-center">
+                                                <a *ngIf="!isEditMode" (click)="toggleEditMode()"><i
+                                                        class="far fa-edit #005b96"></i></a>
+                                                <a *ngIf="isEditMode" (click)="saveChanges()"><i
+                                                        class="fas fa-save"></i></a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-      
 
 
 
-    <div class="card shadow mb-4">
-        <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold">QC Rating</h6>
-        </div>
-        <div class="card-body">
-            <table class="table table-hover table-bordered">
-                <thead>
-                    <tr>
-                        <th class="text-center">Quality Criteria</th>
-                        <th class="text-center">Marks</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>
-                            <label for="greetings" style="font-weight: 600;">Greetings
-                                <span class="text-muted ms-2">[Yes(0) / No(-5)]</span>
-                            </label>
-                        </td>
-                        <td>
-                            <input type="number" id="greetings" name="greetings" class="form-control">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label for="greetings" style="font-weight: 600;">Liveliness
-                                <span class="text-muted ms-2">[Yes(10) / Need Improvement(5) / No(0)]</span>
-                            </label>
-                        </td>
-                        <td>
-                            <input type="number" id="greetings" name="greetings" class="form-control">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label for="greetings" style="font-weight: 600;">Pronunciation
-                                <span class="text-muted ms-2">[Yes(10) / Need Improvement(5) / No(0)]</span>
-                            </label>
-                        </td>
-                        <td>
-                            <input type="number" id="greetings" name="greetings" class="form-control">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label for="greetings" style="font-weight: 600;">Mumbling
-                                <span class="text-muted ms-2">[Yes(10) / Need Improvement(5) / No(0)]</span>
-                            </label>
-                        </td>
-                        <td>
-                            <input type="number" id="greetings" name="greetings" class="form-control">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label for="greetings" style="font-weight: 600;">Pace
-                                <span class="text-muted ms-2">[Yes(10) / Need Improvement(5) / No(0)]</span>
-                            </label>
-                        </td>
-                        <td>
-                            <input type="number" id="greetings" name="greetings" class="form-control">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label for="greetings" style="font-weight: 600;">Pitch
-                                <span class="text-muted ms-2">[Yes(10) / Need Improvement(5) / No(0)]</span>
-                            </label>
-                        </td>
-                        <td>
-                            <input type="number" id="greetings" name="greetings" class="form-control">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label for="greetings" style="font-weight: 600;">Courtesy
-                                <span class="text-muted ms-2">[Yes(10) / Need Improvement(5) / No(0)]</span>
-                            </label>
-                        </td>
-                        <td>
-                            <input type="number" id="greetings" name="greetings" class="form-control">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label for="greetings" style="font-weight: 600;">Hold Process
-                                <span class="text-muted ms-2">[Yes(0) / No(-5)]</span>
-                            </label>
-                        </td>
-                        <td>
-                            <input type="number" id="greetings" name="greetings" class="form-control">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label for="greetings" style="font-weight: 600;">Taking Permission
-                                <span class="text-muted ms-2">[Yes(10) / Need Improvement(5) / No(0)]</span>
-                            </label>
-                        </td>
-                        <td>
-                            <input type="number" id="greetings" name="greetings" class="form-control">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label for="greetings" style="font-weight: 600;">Acknowledgement and follow-up
-                                <span class="text-muted ms-2">[Yes(10) / Need Improvement(5) / No(0)]</span>
-                            </label>
-                        </td>
-                        <td>
-                            <input type="number" id="greetings" name="greetings" class="form-control">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label for="greetings" style="font-weight: 600;">Poor objection & Negotiation skill
-                                <span class="text-muted ms-2">[Yes(0.00) / Need Improvement(-10) /
-                                    No(-20.00)]</span>
-                            </label>
-                        </td>
-                        <td>
-                            <input type="number" id="greetings" name="greetings" class="form-control">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label for="greetings" style="font-weight: 600;">CRM
-                                <span class="text-muted ms-2"> [Yes(20) / Need Improvement(10) / No(0)]</span>
-                            </label>
-                        </td>
-                        <td>
-                            <input type="number" id="greetings" name="greetings" class="form-control">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label for="greetings" style="font-weight: 600;">Closing
-                                <span class="text-muted ms-2"> [Yes(0) / No(-5)]</span>
-                            </label>
-                        </td>
-                        <td>
-                            <input type="number" id="greetings" name="greetings" class="form-control">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label for="greetings" style="font-weight: 600;">Fatal
-                                <span class="text-muted ms-2"> [Yes(-100) / No(0)]</span>
-                            </label>
-                        </td>
-                        <td>
-                            <input type="number" id="greetings" name="greetings" class="form-control">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label for="greetings" style="font-weight: 600;">Fatal Reason
-                                
-                            </label>
-                        </td>
-                        <td>
-                            <input type="text" id="fatalReason" name="greetings" class="form-control">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label for="greetings" style="font-weight: 600;">EAS voice matched with report ?
-                                
-                            </label>
-                        </td>
-                        <td>
-                            <input type="text" id="matchedWithreport" name="greetings" class="form-control">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label for="greetings" style="font-weight: 600;">Agent Grade
-                                
-                            </label>
-                        </td>
-                        <td>
-                            <input type="text" id="agentGrade" name="greetings" class="form-control">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label for="greetings" style="font-weight: 600;">Suggestion
-                                
-                            </label>
-                        </td>
-                        <td>
-                            <input type="text" id="suggestion" name="greetings" class="form-control">
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            <!-- <div class="input-group mb-3">
-                <span class="input-group-text" id="inputGroup-sizing-default">Suggestions</span>
-                <input type="text" class="form-control" aria-label="Sizing example input"
-                    aria-describedby="inputGroup-sizing-default">
-            </div> -->
-            <div class="text-end">
-                <button type="submit" class="btn btn-primary btn-sm" data-bs-toggle="modal"
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold">QC Rating</h6>
+            </div>
+            <div class="card-body">
+                <form (ngSubmit)="submitReport()">
+                    <table class="table table-hover table-bordered">
+                        <thead>
+                            <tr>
+                                <th class="text-center">Quality Criteria</th>
+                                <th class="text-center">Marks</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <label for="greetings" style="font-weight: 600;">Greetings
+                                        <span class="text-muted ms-2">[Yes(0) / No(-5)]</span>
+                                    </label>
+                                </td>
+                                <td>
+                                    <input type="number" id="greetings" name="greetings" class="form-control"
+                                        [(ngModel)]="form.greetings">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="liveliness" style="font-weight: 600;">Liveliness
+                                        <span class="text-muted ms-2">[Yes(10) / Need Improvement(5) / No(0)]</span>
+                                    </label>
+                                </td>
+                                <td>
+                                    <input type="number" id="liveliness" name="liveliness" class="form-control"
+                                        [(ngModel)]="form.liveliness">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="pronunciation" style="font-weight: 600;">Pronunciation
+                                        <span class="text-muted ms-2">[Yes(10) / Need Improvement(5) / No(0)]</span>
+                                    </label>
+                                </td>
+                                <td>
+                                    <input type="number" id="pronunciation" name="pronunciation" class="form-control"
+                                        [(ngModel)]="form.pronunciation">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="mumbling" style="font-weight: 600;">Mumbling
+                                        <span class="text-muted ms-2">[Yes(10) / Need Improvement(5) / No(0)]</span>
+                                    </label>
+                                </td>
+                                <td>
+                                    <input type="number" id="mumbling" name="mumbling" class="form-control"
+                                        [(ngModel)]="form.mumbling">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="pace" style="font-weight: 600;">Pace
+                                        <span class="text-muted ms-2">[Yes(10) / Need Improvement(5) / No(0)]</span>
+                                    </label>
+                                </td>
+                                <td>
+                                    <input type="number" id="pace" name="pace" class="form-control"
+                                        [(ngModel)]="form.pace">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="pitch" style="font-weight: 600;">Pitch
+                                        <span class="text-muted ms-2">[Yes(10) / Need Improvement(5) / No(0)]</span>
+                                    </label>
+                                </td>
+                                <td>
+                                    <input type="number" id="pitch" name="pitch" class="form-control"
+                                        [(ngModel)]="form.pitch">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="courtesy" style="font-weight: 600;">Courtesy
+                                        <span class="text-muted ms-2">[Yes(10) / Need Improvement(5) / No(0)]</span>
+                                    </label>
+                                </td>
+                                <td>
+                                    <input type="number" id="courtesy" name="courtesy" class="form-control"
+                                        [(ngModel)]="form.courtesy">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="holdProcess" style="font-weight: 600;">Hold Process
+                                        <span class="text-muted ms-2">[Yes(0) / No(-5)]</span>
+                                    </label>
+                                </td>
+                                <td>
+                                    <input type="number" id="holdProcess" name="holdProcess" class="form-control"
+                                        [(ngModel)]="form.holdProcess">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="takingPermission" style="font-weight: 600;">Taking Permission
+                                        <span class="text-muted ms-2">[Yes(10) / Need Improvement(5) / No(0)]</span>
+                                    </label>
+                                </td>
+                                <td>
+                                    <input type="number" id="takingPermission" name="takingPermission"
+                                        class="form-control" [(ngModel)]="form.takingPermission">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="acknowledgementandfollowup" style="font-weight: 600;">Acknowledgement
+                                        and
+                                        follow-up
+                                        <span class="text-muted ms-2">[Yes(10) / Need Improvement(5) / No(0)]</span>
+                                    </label>
+                                </td>
+                                <td>
+                                    <input type="number" id="acknowledgementandfollowup"
+                                        name="acknowledgementandfollowup" class="form-control"
+                                        [(ngModel)]="form.acknowledgementAndFollowUp">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="poorobjectionandnegotiationskill" style="font-weight: 600;">Poor
+                                        objection &
+                                        Negotiation skill
+                                        <span class="text-muted ms-2">[Yes(0.00) / Need Improvement(-10) /
+                                            No(-20.00)]</span>
+                                    </label>
+                                </td>
+                                <td>
+                                    <input type="number" id="poorobjectionandnegotiationskill"
+                                        name="poorobjectionandnegotiationskill" class="form-control"
+                                        [(ngModel)]="form.poorObjectionAndNegotiationSkill">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="crm" style="font-weight: 600;">CRM
+                                        <span class="text-muted ms-2"> [Yes(20) / Need Improvement(10) / No(0)]</span>
+                                    </label>
+                                </td>
+                                <td>
+                                    <input type="number" id="crm" name="crm" class="form-control"
+                                        [(ngModel)]="form.crm">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="closing" style="font-weight: 600;">Closing
+                                        <span class="text-muted ms-2"> [Yes(0) / No(-5)]</span>
+                                    </label>
+                                </td>
+                                <td>
+                                    <input type="number" id="closing" name="closing" class="form-control"
+                                        [(ngModel)]="form.closing">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="fatal" style="font-weight: 600;">Fatal
+                                        <span class="text-muted ms-2"> [Yes(-100) / No(0)]</span>
+                                    </label>
+                                </td>
+                                <td>
+                                    <input type="number" id="fatal" name="fatal" class="form-control"
+                                        [(ngModel)]="form.fatal">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="fatalreason" style="font-weight: 600;">Fatal Reason
+
+                                    </label>
+                                </td>
+                                <td>
+                                    <input type="text" id="fatalreason" name="fatalreason" class="form-control"
+                                        [(ngModel)]="form.fatalReason">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="easvoicematchedwithreport" style="font-weight: 600;">EAS voice matched
+                                        with
+                                        report ?
+
+                                    </label>
+                                </td>
+                                <td>
+                                    <input type="text" id="easvoicematchedwithreport" name="easvoicematchedwithreport"
+                                        class="form-control" [(ngModel)]="form.easVoiceMatchedWithReport">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="agentgrade" style="font-weight: 600;">Agent Grade
+
+                                    </label>
+                                </td>
+                                <td>
+                                    <input type="text" id="agentgrade" name="agentgrade" class="form-control"
+                                        [(ngModel)]="form.agentGrade">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="suggestion" style="font-weight: 600;">Suggestion
+
+                                    </label>
+                                </td>
+                                <td>
+                                    <input type="text" id="suggestion" name="suggestion" class="form-control"
+                                        [(ngModel)]="form.suggestion">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight: bold;">Total</td>
+                                <td>
+                                    <input type="number" class="form-control" [value]="total" readonly>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="text-end">
+                        <button type="submit" class="btn btn-success btn-sm" data-bs-toggle="modal"
                             data-bs-target="#addNewModal">Save</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

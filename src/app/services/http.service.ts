@@ -420,4 +420,20 @@ export class HttpService {
     return this.httpClient.get<MP3FilePage>(this.mp3Url, { params });
   }
 
+  addQcReport(reportData: any): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    
+    return this.httpClient.post<any>(this.baseURL + "/api/qcReport/add", reportData, { headers });
+  }
+
+  private apiUrl = '/vicidial/non_agent_api.php?source=test&user=fifotechapi&pass=F1f0t3ch&function=user_group_status&user_groups=Virtual|InHouse&header=YES';
+
+
+
+  getDashboardStats(): Observable<any> {
+    return this.httpClient.get(this.apiUrl);
+  }
+
 }

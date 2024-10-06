@@ -23,6 +23,7 @@ export class DashboardComponent implements OnInit{
     this.fetchTotalInbound();
     this.fetchTotalOutbound();
     this.fetchCampaignData();
+    this.fetchDashboardData();
     
   }
 
@@ -94,6 +95,39 @@ export class DashboardComponent implements OnInit{
       }
     );
   }
+
   
+  stats: any[] = [
+    // { label: 'User Groups', value: '' },
+    { label: 'Calls Waiting', value: 0 },
+    { label: 'Agents Logged In', value: 0 },
+    { label: 'Agents In Calls', value: 0 },
+    { label: 'Agents Waiting', value: 0 },
+    { label: 'Agents Paused', value: 0 },
+    { label: 'Agents In Dead Calls', value: 0 },
+    { label: 'Agents In Dispo', value: 0 },
+    { label: 'Agents In Dial', value: 0 }
+  ];
+
+  fetchDashboardData() {
+    this.http.getDashboardStats().subscribe(response => {
+      const data = response.data;  // Adjust this based on the actual API response structure
+
+      this.stats = [
+        // { label: 'User Groups', value: data.user_groups },
+        { label: 'Calls Waiting', value: data.calls_waiting },
+        { label: 'Agents Logged In', value: data.agents_logged_in },
+        { label: 'Agents In Calls', value: data.agents_in_calls },
+        { label: 'Agents Waiting', value: data.agents_waiting },
+        { label: 'Agents Paused', value: data.agents_paused },
+        { label: 'Agents In Dead Calls', value: data.agents_in_dead_calls },
+        { label: 'Agents In Dispo', value: data.agents_in_dispo },
+        { label: 'Agents In Dial', value: data.agents_in_dial }
+      ];
+
+    }, error => {
+      console.error('Error fetching dashboard data', error);
+    });
+  }
 
 }

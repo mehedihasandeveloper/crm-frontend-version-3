@@ -29,22 +29,73 @@
     text-overflow: ellipsis;
   }
   
-  .editable {
-    cursor: pointer;
-  }
-  
-  .editable-input {
+  .lead-table {
     width: 100%;
-    border: none;
-    background-color: transparent;
-    text-align: center;
-    outline: none;
+    table-layout: fixed;
+    border-collapse: collapse;
   }
   
-  .form-control:focus {
-    box-shadow: none;
+  .lead-table th, .lead-table td {
+    text-align: center;
+    padding: 8px 10px;
+    border: 1px solid #ddd;
+    word-wrap: break-word;
+  }
+  
+  .lead-table th {
+    background-color: #f8f9fa;
+    font-weight: bold;
+  }
+  
+  .lead-table td {
+    position: relative;
+  }
+  
+  .lead-table td input,
+  .lead-table td select,
+  .lead-table td textarea {
+    width: 95%; 
+    padding: 5px;
+    box-sizing: border-box; 
+    border-radius: 4px;
+    border: 1px solid #ccc;
+  }
+  
+  .lead-table td input:focus,
+  .lead-table td select:focus,
+  .lead-table td textarea:focus {
+    outline: none;
     border-color: #005b96;
   }
+  
+
+  .element-class:hover {
+    cursor: pointer;
+  }
+
+
+  .audio-container {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch; 
+    
+    audio {
+      width: 100%;
+      margin-bottom: 10px; 
+    }
+  
+    .tick-container {
+      display: flex;
+      justify-content: flex-end; 
+      margin-top: 10px; 
+      
+      svg {
+        width: 24px;
+        height: 24px;
+      }
+    }
+  }
+  
   
 
     

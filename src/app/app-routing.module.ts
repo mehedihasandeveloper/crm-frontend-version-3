@@ -52,7 +52,7 @@ const routes: Routes = [
   {path: "CRM", component: CRMComponent},
   {path: "qcChecking", component: QcPanelComponent},
   {path: "inboundView", component: InBoundViewComponentComponent},
-  {path: "qcedit", component: QcEditComponent},
+  {path: "viewQcReports", component: QcEditComponent},
   {path: '', component: LoginPageComponent},
   // {path:'**', component: LoginPageComponent}
 ];
