@@ -1,101 +1,98 @@
 .gradient-text {
-    background: linear-gradient(to right, #005b96, black);
-    -webkit-background-clip: text;
-    color: transparent;
-    font-style: italic;
-  }
+  background: linear-gradient(to right, #005b96, black);
+  -webkit-background-clip: text;
+  color: transparent;
+  font-style: italic;
+}
 
-  .lead-table {
-    width: 100%; 
-    table-layout: fixed;
-    border-collapse: collapse;
-  }
-  
-  .lead-table th, 
-  .lead-table td {
-    width: 100px; 
-    padding: 8px;
-    text-align: left;
-    border: 1px solid #ddd;
-  }
-  
-  .lead-table th {
-    background-color: #f2f2f2;
-  }
-  
-  .lead-table td {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  
-  .lead-table {
+.lead-table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+
+.lead-table th,
+.lead-table td {
+  width: 100px;
+  padding: 8px;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+.lead-table th {
+  background-color: #f2f2f2;
+}
+
+.lead-table td {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.lead-table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+
+.lead-table th,
+.lead-table td {
+  text-align: center;
+  padding: 8px 10px;
+  border: 1px solid #ddd;
+  word-wrap: break-word;
+}
+
+.lead-table th {
+  background-color: #f8f9fa;
+  font-weight: bold;
+}
+
+.lead-table td {
+  position: relative;
+}
+
+.lead-table td input,
+.lead-table td select,
+.lead-table td textarea {
+  width: 95%;
+  padding: 5px;
+  box-sizing: border-box;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.lead-table td input:focus,
+.lead-table td select:focus,
+.lead-table td textarea:focus {
+  outline: none;
+  border-color: #005b96;
+}
+
+
+.element-class:hover {
+  cursor: pointer;
+}
+
+
+.audio-container {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+
+  audio {
     width: 100%;
-    table-layout: fixed;
-    border-collapse: collapse;
-  }
-  
-  .lead-table th, .lead-table td {
-    text-align: center;
-    padding: 8px 10px;
-    border: 1px solid #ddd;
-    word-wrap: break-word;
-  }
-  
-  .lead-table th {
-    background-color: #f8f9fa;
-    font-weight: bold;
-  }
-  
-  .lead-table td {
-    position: relative;
-  }
-  
-  .lead-table td input,
-  .lead-table td select,
-  .lead-table td textarea {
-    width: 95%; 
-    padding: 5px;
-    box-sizing: border-box; 
-    border-radius: 4px;
-    border: 1px solid #ccc;
-  }
-  
-  .lead-table td input:focus,
-  .lead-table td select:focus,
-  .lead-table td textarea:focus {
-    outline: none;
-    border-color: #005b96;
-  }
-  
-
-  .element-class:hover {
-    cursor: pointer;
+    margin-bottom: 10px;
   }
 
-
-  .audio-container {
+  .tick-container {
     display: flex;
-    flex-direction: column;
-    align-items: stretch; 
-    
-    audio {
-      width: 100%;
-      margin-bottom: 10px; 
-    }
-  
-    .tick-container {
-      display: flex;
-      justify-content: flex-end; 
-      margin-top: 10px; 
-      
-      svg {
-        width: 24px;
-        height: 24px;
-      }
+    justify-content: flex-end;
+    margin-top: 10px;
+
+    svg {
+      width: 24px;
+      height: 24px;
     }
   }
-  
-  
-
-    
+}

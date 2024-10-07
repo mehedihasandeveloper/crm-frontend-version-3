@@ -25,6 +25,7 @@ import { CRMComponent } from './components/agentPanel/crm/crm.component';
 import { QcPanelComponent } from './components/qc-panel/qc-panel.component';
 import { InBoundViewComponentComponent } from './components/agentPanel/in-bound-view-component/in-bound-view-component.component';
 import { QcEditComponent } from './components/qc-edit/qc-edit.component';
+import { QcRecordsViewComponent } from './components/qc-records-view/qc-records-view.component';
 
 
 const routes: Routes = [
@@ -52,7 +53,8 @@ const routes: Routes = [
   {path: "CRM", component: CRMComponent},
   {path: "qcChecking", component: QcPanelComponent},
   {path: "inboundView", component: InBoundViewComponentComponent},
-  {path: "viewQcReports", component: QcEditComponent},
+  {path: "editqc/:id", component: QcEditComponent},
+  {path: "viewQcReports", component: QcRecordsViewComponent},
   {path: '', component: LoginPageComponent},
   // {path:'**', component: LoginPageComponent}
 ];

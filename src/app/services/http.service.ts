@@ -428,12 +428,37 @@ export class HttpService {
     return this.httpClient.post<any>(this.baseURL + "/api/qcReport/add", reportData, { headers });
   }
 
+  // getQcReportsByInspector(username: string, offset: number, pageSize: number): Observable<APIResponse<QcReport>> {
+  //   const params = new HttpParams().set('username', username);
+  //   return this.httpClient.get<APIResponse<QcReport>>(`${this.baseUrl}/getqcreportbyqcinspector/${offset}/${pageSize}`, { params });
+  // }
+
+  deleteQc(id: any) {
+    return this.httpClient.delete(this.baseURL + "/api/qcReport/deleteQc/" + id);
+  }
+
+  getQcReportsByInspector(username: string, offset: number, pageSize: number): Observable<any> {
+    const params = new HttpParams().set('username', username);
+    return this.httpClient.get(`${this.baseURL}/api/qcReport/getqcreportbyqcinspector/${offset}/${pageSize}`, { params });
+  }
+
+  // // Fetch all QC reports with pagination
+  // getAllQcReports(offset: number, pageSize: number): Observable<APIResponse<QcReport>> {
+  //   return this.httpClient.get<APIResponse<QcReport>>(`${this.baseUrl}/getallqcreports/${offset}/${pageSize}`);
+  // }
+  
+  
   private apiUrl = '/vicidial/non_agent_api.php?source=test&user=fifotechapi&pass=F1f0t3ch&function=user_group_status&user_groups=Virtual|InHouse&header=YES';
 
 
 
+  getQcReportById(id: any) {
+    return this.httpClient.get(this.baseURL + "/api/qcReport/getqc/" + id);
+  }
   getDashboardStats(): Observable<any> {
     return this.httpClient.get(this.apiUrl);
   }
+
+
 
 }

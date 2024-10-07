@@ -11,7 +11,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class EditAgentComponent {
   successMessage: string = '';
   errorMessage: string = '';
-
+  id: any;
   constructor(public http: HttpService, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void {
@@ -19,7 +19,7 @@ export class EditAgentComponent {
     this.getByID(this.id);
   }
 
-  id: any;
+  
   getByID(id: any) {
     this.http.getAgentById(id).subscribe((result: any) => {
       this.agentForm.setValue(result);

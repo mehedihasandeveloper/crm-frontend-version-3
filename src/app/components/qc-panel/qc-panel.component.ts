@@ -81,7 +81,7 @@ export class QcPanelComponent implements OnInit {
 
   playFile(fileName: string, agentId: string): void {
     this.audioSource = null;
-    this.selectedAgentId = agentId;  // Store agent ID
+    this.selectedAgentId = agentId;
     const fullPath = `${this.date}/${fileName}`;
     setTimeout(() => {
       this.audioSource = `http://43.231.78.77:5010/download-mp3?fileName=${encodeURIComponent(fullPath)}`;
