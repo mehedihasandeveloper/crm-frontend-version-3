@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { HttpService } from '../../services/http.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormControl, FormGroup } from '@angular/forms';
+import { response } from 'express';
+import { error } from 'console';
 
 @Component({
   selector: 'app-qc-edit',
@@ -9,10 +11,9 @@ import { FormControl, FormGroup } from '@angular/forms';
   styleUrl: './qc-edit.component.scss'
 })
 export class QcEditComponent implements OnInit {
-  onSubmit() {
-    console.log(this.qcForm.value);
-  }
+
   id: any;
+  total: number = 0;
   constructor(public http: HttpService, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void {
@@ -57,5 +58,31 @@ export class QcEditComponent implements OnInit {
     suggestion: new FormControl(''),
     qcInspector: new FormControl(''),
   })
+
+
+  calculateTotal() {
+    this.qcForm.value.total =
+      this.qcForm.value.greetings + this.qcForm.value.liveliness + this.qcForm.value.pronunciation +
+      this.qcForm.value.mumbling + this.qcForm.value.pace + this.qcForm.value.pitch +
+      this.qcForm.value.courtesy + this.qcForm.value.holdProcess + this.qcForm.value.takingPermission +
+      this.qcForm.value.acknowledgementAndFollowUp + this.qcForm.value.poorObjectionAndNegotiationSkill +
+      this.qcForm.value.crm + this.qcForm.value.closing + this.qcForm.value.fatal;
+  }
+
+  onSubmit() {
+    this.calculateTotal();
+    console.log(this.qcForm.value);
+    this.http.updateQc(this.qcForm.value).subscribe(
+      response => {
+        alert("Update Successful!");
+        this.router.navigateByUrl('/viewQcReports')
+      },
+      error => {
+        console.log('Update failed', error);
+        alert("Update failed")
+        
+      }
+    )
+  }
 
 }

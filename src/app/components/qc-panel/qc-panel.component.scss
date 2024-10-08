@@ -96,3 +96,17 @@
     }
   }
 }
+
+.tick-container {
+  .green-tick {
+    color: green;
+  }
+
+  .ash-tick {
+    color: #808080; // Ash color
+  }
+
+  .disabled {
+    cursor: not-allowed;
+  }
+}

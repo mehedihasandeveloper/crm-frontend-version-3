@@ -1,7 +1,6 @@
 <h3 class="display-6 mt-5 mb-4 text-uppercase d-flex justify-content-between align-items-center gradient-text"
     style="font-size: 30px;">
     QC Panel
-
 </h3>
 
 <div class="card shadow mb-4">
@@ -74,7 +73,7 @@
                     </div>
                     <div class="card-body">
                         <div *ngIf="mp3FilePage">
-                            <ul class="list-group">
+                            <!-- <ul class="list-group">
                                 <li *ngFor="let file of mp3FilePage.content"
                                     class="list-group-item d-flex flex-column align-items-start mb-2 shadow-sm rounded">
                                     <div class="w-100">
@@ -86,30 +85,45 @@
                                             class="btn btn-dark btn-sm">Play</button>
                                     </div>
                                 </li>
+                            </ul> -->
+                            <ul class="list-group">
+                                <li *ngFor="let file of mp3FilePage.content"
+                                    class="list-group-item d-flex flex-column align-items-start mb-2 shadow-sm rounded">
+                                    <div class="w-100">
+                                        <p class="mb-2"><strong>File Name:</strong> {{ file.fileName }}</p>
+                                        <p class="mb-1"><strong>Agent ID:</strong> {{ file.agentId }}</p>
+                                        <p class="mb-1"><strong>Duration:</strong> {{ file.duration || 'Loading...' }}
+                                            seconds</p> <!-- Display the duration here -->
+                                    </div>
+                                    <div class="mt-2 text-end w-100">
+                                        <button (click)="playFile(file.fileName, file.agentId)"
+                                            class="btn btn-dark btn-sm">Play</button>
+                                    </div>
+                                </li>
                             </ul>
+
                         </div>
 
                         <div *ngIf="audioSource" class="audio-container">
-                            <!-- Audio player -->
+
                             <audio controls (loadedmetadata)="onLoadedMetadata($event)">
                                 <source [src]="audioSource" type="audio/mpeg">
                                 Your browser does not support the audio element.
                             </audio>
 
-                            <!-- Tick mark for marking the action -->
                             <div class="tick-container">
                                 <span (click)="assignAgentId()" [class.disabled]="!metadataLoaded"
+                                    [class.green-tick]="tickGreen" [class.ash-tick]="!tickGreen"
                                     data-bs-toggle="tooltip" data-bs-placement="top"
                                     title="Click to mark it successful">
                                     <svg class="me-2 element-class" xmlns="http://www.w3.org/2000/svg" width="24"
                                         height="24" viewBox="0 0 1024 1024">
-                                        <path fill="green"
+                                        <path fill="currentColor"
                                             d="M512 64a448 448 0 1 1 0 896a448 448 0 0 1 0-896m-55.808 536.384l-99.52-99.584a38.4 38.4 0 1 0-54.336 54.336l126.72 126.72a38.27 38.27 0 0 0 54.336 0l262.4-262.464a38.4 38.4 0 1 0-54.272-54.336z" />
                                     </svg>
                                 </span>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -405,30 +419,31 @@
                                     </label>
                                 </td>
                                 <td>
-                                    <input type="text" id="easvoicematchedwithreport" name="easvoicematchedwithreport"
-                                        class="form-control" [(ngModel)]="form.easVoiceMatchedWithReport">
+                                    <select id="easvoicematchedwithreport" name="easvoicematchedwithreport"
+                                        class="form-control" [(ngModel)]="form.easVoiceMatchedWithReport"
+                                        class="form-select form-control-sm">
+                                        <option value="yes">Yes</option>
+                                        <option value="no">No</option>
+
+                                    </select>
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <label for="agentgrade" style="font-weight: 600;">Agent Grade
-
-                                    </label>
-                                </td>
-                                <td>
-                                    <input type="text" id="agentgrade" name="agentgrade" class="form-control"
-                                        [(ngModel)]="form.agentGrade">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label for="suggestion" style="font-weight: 600;">Suggestion
-
-                                    </label>
+                                    <label for="suggestion" style="font-weight: 600;">Suggestion</label>
                                 </td>
                                 <td>
                                     <input type="text" id="suggestion" name="suggestion" class="form-control"
                                         [(ngModel)]="form.suggestion">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="agentgrade" style="font-weight: 600;">Agent Grade</label>
+                                </td>
+                                <td>
+                                    <input type="text" id="agentgrade" name="agentgrade" class="form-control"
+                                         [value]="agentGrade" readonly>
                                 </td>
                             </tr>
                             <tr>

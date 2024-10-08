@@ -32,6 +32,10 @@ export class QcPanelComponent implements OnInit {
   username: string = '';
   selectedDuration: string = '';
   selectedAgentId: string = '';
+  metadataLoaded: boolean = false;
+  total: number = 0;
+  agentGrade: string = '';
+  tickGreen = false;
 
   constructor(public http: HttpService, private route: Router, private storageService: StorageService) {
     this.leadForm = new FormGroup({
@@ -44,7 +48,6 @@ export class QcPanelComponent implements OnInit {
   ngOnInit(): void {
     this.getAllCampaign();
     this.username = this.storageService.getUser().userName;
-    console.log(this.username);
   }
 
   onSubmit() {
@@ -56,29 +59,6 @@ export class QcPanelComponent implements OnInit {
 
   }
 
-  searchFiles(): void {
-    this.http.searchMP3Files(this.date, this.cellNumber, 0, 10).subscribe({
-      next: (response) => {
-        this.mp3FilePage = response;
-
-        const agentIds: string[] = [];
-        this.mp3FilePage.content.forEach((file: any) => {
-          agentIds.push(file.agentId);
-        });
-
-        if (agentIds.length === 1) {
-          this.selectedAgentId = agentIds[0];
-        }
-        console.log('Agent IDs:', agentIds);
-        console.log('selectedAgentId', this.selectedAgentId);
-
-      },
-      error: (error) => {
-        this.errorMessage = `Error: ${error.message}`;
-      }
-    });
-  }
-
   playFile(fileName: string, agentId: string): void {
     this.audioSource = null;
     this.selectedAgentId = agentId;
@@ -87,16 +67,51 @@ export class QcPanelComponent implements OnInit {
       this.audioSource = `http://43.231.78.77:5010/download-mp3?fileName=${encodeURIComponent(fullPath)}`;
     }, 50);
   }
-  metadataLoaded: boolean = false;
+
+  searchFiles(): void {
+    this.http.searchMP3Files(this.date, this.cellNumber, 0, 10).subscribe({
+      next: (response) => {
+        this.mp3FilePage = response;
+
+        const agentIds: string[] = [];
+        this.mp3FilePage.content.forEach((file: any) => {
+          agentIds.push(file.agentId);
+          const fullPath = `${this.date}/${file.fileName}`;
+          this.loadAudioMetadata(fullPath, file);
+        });
+
+        if (agentIds.length === 1) {
+          this.selectedAgentId = agentIds[0];
+        }
+        console.log('Agent IDs:', agentIds);
+        console.log('selectedAgentId', this.selectedAgentId);
+      },
+      error: (error) => {
+        this.errorMessage = `Error: ${error.message}`;
+      }
+    });
+  }
+
+  loadAudioMetadata(fullPath: string, file: any): void {
+    const audio = new Audio(`http://43.231.78.77:5010/download-mp3?fileName=${encodeURIComponent(fullPath)}`);
+    audio.addEventListener('loadedmetadata', () => {
+      const duration = audio.duration;
+      file.duration = Math.floor(duration);
+      console.log(`Duration of ${file.fileName}: ${file.duration} seconds`);
+    });
+  }
+
+
   onLoadedMetadata(event: any): void {
     const duration = event.target.duration;
-    this.selectedDuration = `${Math.floor(duration)}`;  
-    this.metadataLoaded = true;  
+    this.selectedDuration = `${Math.floor(duration)}`;
+    this.metadataLoaded = true;
     console.log('Audio Duration:', this.selectedDuration);
   }
 
   assignAgentId(): void {
     if (this.metadataLoaded) {
+      this.tickGreen = true;
       alert("Successful Call Detected!");
       console.log('Selected Agent ID:', this.selectedAgentId);
       console.log('Selected Duration:', this.selectedDuration);
@@ -123,14 +138,12 @@ export class QcPanelComponent implements OnInit {
           console.log(response);
           this.questions = [];
           this.answers = [];
-
           for (const key in response) {
             if (key.startsWith('Q') && response[key] !== undefined) {
               this.questions.push(key);
               this.answers.push(response[key]);
             }
           }
-
           this.loadQuestionsAndLogic();
           this.numberExist = true;
         }
@@ -148,7 +161,6 @@ export class QcPanelComponent implements OnInit {
   getAllSurveyQuestions(): void {
     this.http.getToSetLogicQuestions(this.campaignName).subscribe((result: any) => {
       this.questionList = result;
-      console.log(result);
     });
   }
 
@@ -165,12 +177,10 @@ export class QcPanelComponent implements OnInit {
     this.http.updateLeadByCellNumber(this.campaignName, this.cellNumber, updatedData)
       .subscribe({
         next: (response) => {
-          console.log('Lead data updated successfully:', response);
           this.isEditMode = false;
           alert('Lead data updated successfully!');
         },
         error: (error) => {
-          console.error('Error updating lead data:', error);
           alert('Failed to update lead data. Please try again.');
         }
       });
@@ -193,11 +203,10 @@ export class QcPanelComponent implements OnInit {
     fatal: 0,
     fatalReason: '',
     easVoiceMatchedWithReport: '',
-    agentGrade: '',
+    // agentGrade: '',
     suggestion: ''
   };
 
-  total: number = 0;
 
   calculateTotal() {
     this.total =
@@ -206,8 +215,24 @@ export class QcPanelComponent implements OnInit {
       this.form.courtesy + this.form.holdProcess + this.form.takingPermission +
       this.form.acknowledgementAndFollowUp + this.form.poorObjectionAndNegotiationSkill +
       this.form.crm + this.form.closing + this.form.fatal;
+
+      this.decideAgentGrade(this.total);
   }
 
+  decideAgentGrade(total: number) {
+    if (total >= 90) {
+      this.agentGrade = 'Exceed Expectation';
+
+    } else if (total >= 80) {
+      this.agentGrade = 'Meet Expectation';
+
+    } else if (total >= 70) {
+      this.agentGrade = 'Average Expectation';
+
+    } else {
+      this.agentGrade = 'Below Expectation';
+    }
+  }
   submitReport() {
     this.calculateTotal();
     const reportData = {
@@ -218,7 +243,8 @@ export class QcPanelComponent implements OnInit {
       campaignName: this.campaignName,
       qcInspector: this.username,
       duration: this.selectedDuration,
-      agentId: this.selectedAgentId
+      agentId: this.selectedAgentId,
+      agentGrade: this.agentGrade
 
     };
 
@@ -226,13 +252,15 @@ export class QcPanelComponent implements OnInit {
       (response) => {
         alert('Report submitted successfully!');
         this.route.navigateByUrl('/viewQcReports');
-        console.log(response);
-        
+
       },
       (error) => {
         alert('There was an error submitting the report.');
       }
     );
   }
+
+
+
 
 }

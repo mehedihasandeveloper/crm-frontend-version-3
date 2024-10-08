@@ -24,9 +24,7 @@
                     </select>
                 </div>
             </div>
-            <!-- Dynamic elements based on selection -->
             <div class="mt-3 row" *ngIf="showGenerateControls">
-                <!-- Your dynamically shown elements, like a button and input -->
                 <div class="col-sm-6 mb-3 mb-sm-0">
                     <select class="form-select" aria-label="Default select example" formControlName="campaignName">
                         <option [value]="''" selected>Choose Campaign</option>
@@ -45,7 +43,7 @@
                     </select>
                 </div>
                 <div class="mt-3 d-flex justify-content-end">
-                    <button type="submit" class="btn btn-success ms-2" (click)="downloadFor_D()">Export Report</button>
+                    <button type="submit" class="btn btn-success btn-sm ms-2" (click)="downloadFor_D()">Export Report</button>
                 </div>
             </div>
         </form>
@@ -70,9 +68,7 @@
                     </select>
                 </div>
             </div>
-            <!-- Dynamic elements based on selection -->
             <div class="mt-3 row" *ngIf="showGenerateControls1">
-                <!-- Your dynamically shown elements, like a button and input -->
                 <div class="col-sm-5 mb-3 mb-sm-0">
                     <select class="form-select" aria-label="Default select example" formControlName="campaignName">
                         <option [value]="''" selected>Choose Campaign</option>
@@ -103,7 +99,48 @@
                     </select>
                 </div>
                 <div class="mt-3 d-flex justify-content-end">
-                    <button type="submit" class="btn btn-success ms-2" (click)="downloadFullReport()">Export Report</button>
+                    <button type="submit" class="btn btn-success btn-sm ms-2" (click)="downloadFullReport()">Export Report</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold">Download QC Reports</h6>
+    </div>
+    <div class="card-body">
+
+        <form class="mt-2" [formGroup]="dataTablesForm">
+            <div class="form-group row" *ngIf="showInitialControls2">
+                <div class="col-sm-6 mb-3 mb-sm-0">
+                    <select class="form-select" aria-label="Default select example" formControlName="campaignName"
+                        (change)="onQcReportSelected()">
+                        <option [value]="''" selected>Choose Report</option>
+                        <option>Daily QC for Inhouse</option>
+                        <option>Daily QC for Client</option>
+                        <option>Daily QC Report Summary</option>
+                        <option>Monthly QC Report Summary</option>
+                    </select>
+                </div>
+            </div>
+            <div class="mt-3 row" *ngIf="showGenerateControls2">
+                <div class="col-sm-5 mb-3 mb-sm-0">
+                    <select class="form-select" aria-label="Default select example" formControlName="campaignName">
+                        <option [value]="''" selected>Choose Campaign</option>
+                        <option>
+                      
+                        </option>
+                    </select>
+                </div>
+                <div class="col-sm-3">
+                    <input type="date" name="" id="">
+                </div>
+                
+                <div class="mt-3 d-flex justify-content-end">
+                    <button type="submit" class="btn btn-success btn-sm ms-2">Export Report</button>
                 </div>
             </div>
         </form>

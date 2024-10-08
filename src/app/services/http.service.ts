@@ -60,7 +60,6 @@ export class HttpService {
 
   private dynamicUrl = 'http://localhost:8080/dynamic';
 
-
   private mp3Url = 'https://voicelog.fifo-tech.com/search';
 
   getQuestionListWithPagination(offset: number, pageSize: number): Observable<any> {
@@ -104,7 +103,6 @@ export class HttpService {
     if (!isNaN(numberOfField) && !term.includes(".")) {
       params = params.set('numberOfField', numberOfField.toString());
     }
-
     return this.httpClient.get(this.dataTableURL + '/searchDataTables', { params });
   }
 
@@ -451,10 +449,15 @@ export class HttpService {
   private apiUrl = '/vicidial/non_agent_api.php?source=test&user=fifotechapi&pass=F1f0t3ch&function=user_group_status&user_groups=Virtual|InHouse&header=YES';
 
 
-
   getQcReportById(id: any) {
     return this.httpClient.get(this.baseURL + "/api/qcReport/getqc/" + id);
   }
+
+  updateQc(qc: any) {
+    return this.httpClient.put(this.baseURL + "/api/qcReport/editqc", qc);
+  }
+
+
   getDashboardStats(): Observable<any> {
     return this.httpClient.get(this.apiUrl);
   }

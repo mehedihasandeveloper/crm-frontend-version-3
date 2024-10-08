@@ -9,7 +9,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
   templateUrl: './reports.component.html',
   styleUrl: './reports.component.scss'
 })
-export class ReportsComponent implements OnInit{
+export class ReportsComponent implements OnInit {
   onReload() {
     this.ngOnInit();
     console.log("load");
@@ -32,6 +32,8 @@ export class ReportsComponent implements OnInit{
   showInitialControls = true;
   showGenerateControls1 = false;
   showInitialControls1 = true;
+  showGenerateControls2 = false;
+  showInitialControls2 = true;
 
   getAll() {
     this.http.getAll().subscribe((result: any) => {
@@ -51,7 +53,7 @@ export class ReportsComponent implements OnInit{
       });
     }
   }
-  onFullReportSelected(){
+  onFullReportSelected() {
     const campaignName = this.dataTablesForm.get('campaignName')?.value;
     if (campaignName) {
       this.http.getUniqueJoiningDates(campaignName).subscribe(data => {
@@ -62,6 +64,11 @@ export class ReportsComponent implements OnInit{
         console.error('Error fetching joining dates', error);
       });
     }
+  }
+
+  onQcReportSelected() {
+    this.showGenerateControls2 = true;
+    this.showInitialControls2 = false;
   }
 
   downloadFor_D() {
@@ -76,7 +83,7 @@ export class ReportsComponent implements OnInit{
     this.csvService.downloadExcelFor_d(campaignName, date);
   }
 
-  downloadFullReport(){
+  downloadFullReport() {
     const campaignName = this.dataTablesForm.get('campaignName')?.value;
     const startDate = this.dataTablesForm.get('startDate')?.value;
     const endDate = this.dataTablesForm.get('endDate')?.value;
