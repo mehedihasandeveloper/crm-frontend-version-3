@@ -75,7 +75,14 @@
             d="M19 4a2 2 0 0 1 1.995 1.85L21 6v13a2 2 0 0 1-1.85 1.995L19 21H5a2 2 0 0 1-1.995-1.85L3 19V6a2 2 0 0 1 1.85-1.995L5 4zM8 16H5v3h3zm11 0h-9v3h9zM8 11H5v3h3zm11 0h-9v3h9zM8 6H5v3h3zm11 0h-9v3h9z" />
         </g>
       </svg>
-      QC Records</a>
+      QC Records Inhouse</a>
+    <hr class="sidebar-divider hrule me-4" style="color: #9ea4ae;">
+    <a [routerLink]="'/viewQcReports'" style="padding-left: 20px;">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 256 256">
+        <path fill="white"
+          d="M168 106H88a38 38 0 0 0-38 38v8a38 38 0 0 0 38 38h80a38 38 0 0 0 38-38v-8a38 38 0 0 0-38-38m26 46a26 26 0 0 1-26 26H88a26 26 0 0 1-26-26v-8a26 26 0 0 1 26-26h80a26 26 0 0 1 26 26Zm14-110a30.05 30.05 0 0 0-29.4 24H77.4A30 30 0 0 0 18 72v80a70.08 70.08 0 0 0 70 70h80a70.08 70.08 0 0 0 70-70V72a30 30 0 0 0-30-30m18 110a58.07 58.07 0 0 1-58 58H88a58.07 58.07 0 0 1-58-58V72a18 18 0 0 1 36 0a6 6 0 0 0 6 6h112a6 6 0 0 0 6-6a18 18 0 0 1 36 0Zm-124-4a10 10 0 1 1-10-10a10 10 0 0 1 10 10m72 0a10 10 0 1 1-10-10a10 10 0 0 1 10 10" />
+      </svg>
+      QC Records Client</a>
     <hr class="sidebar-divider hrule me-4" style="color: #9ea4ae;">
     <a [routerLink]="'/inboundView'" style="padding-left: 20px;">
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
@@ -123,6 +130,7 @@
       </svg>
       Performance Report</a>
   </div>
+  
 
 </div>
 <div [ngClass]="{'main-logged-in': isLoggedIn, 'main-full': !isLoggedIn}">

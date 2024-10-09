@@ -3,6 +3,7 @@ import { HttpService } from '../../services/http.service';
 import { Router } from '@angular/router';
 import { StorageService } from '../../services/storage.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { error } from 'node:console';
 
 @Component({
   selector: 'app-qc-panel',
@@ -35,6 +36,8 @@ export class QcPanelComponent implements OnInit {
   metadataLoaded: boolean = false;
   total: number = 0;
   agentGrade: string = '';
+  totalMarks: number = 0;
+  agentGradeMarks: string = '';
   tickGreen = false;
 
   constructor(public http: HttpService, private route: Router, private storageService: StorageService) {
@@ -203,9 +206,28 @@ export class QcPanelComponent implements OnInit {
     fatal: 0,
     fatalReason: '',
     easVoiceMatchedWithReport: '',
-    // agentGrade: '',
     suggestion: ''
   };
+
+  form2 = {
+    greetingsMarks: 0,
+    livelinessMarks: 0,
+    pronunciationMarks: 0,
+    mumblingMarks: 0,
+    paceMarks: 0,
+    pitchMarks: 0,
+    courtesyMarks: 0,
+    holdProcessMarks: 0,
+    takingPermissionMarks: 0,
+    acknowledgementAndFollowUpMarks: 0,
+    poorObjectionAndNegotiationSkillMarks: 0,
+    crmMarks: 0,
+    closingMarks: 0,
+    fatalMarks: 0,
+    fatalReasonMarks: '',
+    easVoiceMatchedWithReportMarks: '',
+    suggestionMarks: ''
+  }
 
 
   calculateTotal() {
@@ -216,23 +238,32 @@ export class QcPanelComponent implements OnInit {
       this.form.acknowledgementAndFollowUp + this.form.poorObjectionAndNegotiationSkill +
       this.form.crm + this.form.closing + this.form.fatal;
 
-      this.decideAgentGrade(this.total);
+    this.agentGrade = this.decideAgentGrade(this.total);
+
+    this.totalMarks =
+      this.form2.greetingsMarks + this.form2.livelinessMarks + this.form2.pronunciationMarks +
+      this.form2.mumblingMarks + this.form2.paceMarks + this.form2.pitchMarks +
+      this.form2.courtesyMarks + this.form2.holdProcessMarks + this.form2.takingPermissionMarks +
+      this.form2.acknowledgementAndFollowUpMarks + this.form2.poorObjectionAndNegotiationSkillMarks +
+      this.form2.crmMarks + this.form2.closingMarks + this.form2.fatalMarks;
+      this.agentGradeMarks = this.decideAgentGrade(this.totalMarks);
   }
 
   decideAgentGrade(total: number) {
     if (total >= 90) {
-      this.agentGrade = 'Exceed Expectation';
+      return 'Exceed Expectation';
 
     } else if (total >= 80) {
-      this.agentGrade = 'Meet Expectation';
+      return 'Meet Expectation';
 
     } else if (total >= 70) {
-      this.agentGrade = 'Average Expectation';
+      return 'Average Expectation';
 
     } else {
-      this.agentGrade = 'Below Expectation';
+      return 'Below Expectation';
     }
   }
+
   submitReport() {
     this.calculateTotal();
     const reportData = {
@@ -248,16 +279,34 @@ export class QcPanelComponent implements OnInit {
 
     };
 
-    this.http.addQcReport(reportData).subscribe(
+    const reportDataMarks = {
+      ...this.form2,
+      total: this.totalMarks,
+      callDate: this.date,
+      consumerNumber: this.cellNumber,
+      campaignName: this.campaignName,
+      qcInspector: this.username,
+      duration: this.selectedDuration,
+      agentId: this.selectedAgentId,
+      agentGrade: this.agentGradeMarks
+    };
+
+    this.http.addQcReportForClient(reportDataMarks).subscribe(
       (response) => {
+        
+        this.http.addQcReport(reportData).subscribe(
+          (response) => {       
+          },
+          (error) => {
+          }
+        );
         alert('Report submitted successfully!');
         this.route.navigateByUrl('/viewQcReports');
-
       },
       (error) => {
-        alert('There was an error submitting the report.');
+        console.log(error);
       }
-    );
+    )
   }
 
 

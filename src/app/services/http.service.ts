@@ -426,6 +426,14 @@ export class HttpService {
     return this.httpClient.post<any>(this.baseURL + "/api/qcReport/add", reportData, { headers });
   }
 
+  addQcReportForClient(reportData: any): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    
+    return this.httpClient.post<any>(this.baseURL + "/api/qcReport/addforclient", reportData, { headers });
+  }
+
   // getQcReportsByInspector(username: string, offset: number, pageSize: number): Observable<APIResponse<QcReport>> {
   //   const params = new HttpParams().set('username', username);
   //   return this.httpClient.get<APIResponse<QcReport>>(`${this.baseUrl}/getqcreportbyqcinspector/${offset}/${pageSize}`, { params });

@@ -7,7 +7,7 @@ import { HttpService } from './services/http.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'] // Correct this to styleUrls
+  styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit{
 
@@ -21,7 +21,6 @@ export class AppComponent implements OnInit{
   isAgent = true;
   ngOnInit(): void {
     this.isLoggedIn = this.storageService.isLoggedIn();
-    
     if (this.isLoggedIn) {
       const user = this.storageService.getUser();
       this.roles = user.roles;
@@ -31,15 +30,12 @@ export class AppComponent implements OnInit{
       }else{
         this.isAgent = false;
       }
-    }else{
-      // this.route.navigateByUrl('/login');
     }
   }
   deleteCampaignName(): void {
     localStorage.removeItem('campaignName');
   }
 
- 
 }
 
 
