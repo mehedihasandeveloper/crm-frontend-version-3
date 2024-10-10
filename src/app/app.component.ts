@@ -19,6 +19,7 @@ export class AppComponent implements OnInit{
   username?: string;
   isAdmin = true;
   isAgent = true;
+  isQc = false;
   ngOnInit(): void {
     this.isLoggedIn = this.storageService.isLoggedIn();
     if (this.isLoggedIn) {
@@ -27,7 +28,11 @@ export class AppComponent implements OnInit{
       this.username = user.userName; 
       if(this.username == "admin"){
         this.isAdmin = false;
+      }else if (this.username === undefined){
+        this.isAgent = false;
       }else{
+        this.isQc = true;
+        this.isAdmin = false;
         this.isAgent = false;
       }
     }

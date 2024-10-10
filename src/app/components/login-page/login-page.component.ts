@@ -49,8 +49,14 @@ export class LoginPageComponent implements OnInit {
       this.username = this.storageService.getUser().userName;
       if (this.username == "admin") {
         this.route.navigateByUrl("/agents");
-      } else {
+      } 
+      
+      else if (this.username === undefined) {
         this.route.navigateByUrl("/CRM");
+      }
+
+      else {
+        this.route.navigateByUrl("/qcChecking");
       }
       this.roles = this.storageService.getUser().roles;
       this.getAllCampaign();
@@ -117,7 +123,7 @@ export class LoginPageComponent implements OnInit {
       this.http.loginAsAgent(agentId, password).subscribe({
         next: data => {
           clearTimeout(timeoutId);
-          this.route.navigateByUrl('/CRM')
+          // this.route.navigateByUrl('/CRM')
           this.reloadPage();
           this.storageService.saveUser(data);
           this.isLoggedIn = true;
