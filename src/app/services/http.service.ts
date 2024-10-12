@@ -448,6 +448,11 @@ export class HttpService {
     return this.httpClient.get(`${this.baseURL}/api/qcReport/getqcreportbyqcinspector/${offset}/${pageSize}`, { params });
   }
 
+  getQcReportsClientByInspector(username: string, offset: number, pageSize: number): Observable<any> {
+    const params = new HttpParams().set('username', username);
+    return this.httpClient.get(`${this.baseURL}/api/qcReport/getQcRecordsClientViewByQcInspector/${offset}/${pageSize}`, { params });
+  }
+
   // // Fetch all QC reports with pagination
   // getAllQcReports(offset: number, pageSize: number): Observable<APIResponse<QcReport>> {
   //   return this.httpClient.get<APIResponse<QcReport>>(`${this.baseUrl}/getallqcreports/${offset}/${pageSize}`);

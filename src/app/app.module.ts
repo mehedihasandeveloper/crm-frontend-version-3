@@ -33,6 +33,8 @@ import { InBoundViewComponentComponent } from './components/agentPanel/in-bound-
 import { QcEditComponent } from './components/qc-edit/qc-edit.component';
 import { QcRecordsViewComponent } from './components/qc-records-view/qc-records-view.component';
 import { AdminQcViewComponent } from './components/admin-qc-view/admin-qc-view.component';
+import { QcReportsComponent } from './components/qcPanel/qc-reports/qc-reports.component';
+import { QcRecordsClientComponent } from './components/qcPanel/qc-records-client/qc-records-client.component';
 
 
 @NgModule({
@@ -66,6 +68,8 @@ import { AdminQcViewComponent } from './components/admin-qc-view/admin-qc-view.c
     QcEditComponent,
     QcRecordsViewComponent,
     AdminQcViewComponent,
+    QcReportsComponent,
+    QcRecordsClientComponent,
    
 
   ],
