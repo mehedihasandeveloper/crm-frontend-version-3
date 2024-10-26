@@ -28,6 +28,7 @@ import { QcEditComponent } from './components/qc-edit/qc-edit.component';
 import { QcRecordsViewComponent } from './components/qc-records-view/qc-records-view.component';
 import { QcReportsComponent } from './components/qcPanel/qc-reports/qc-reports.component';
 import { QcRecordsClientComponent } from './components/qcPanel/qc-records-client/qc-records-client.component';
+import { EditClientRecordsComponent } from './qcPanel/edit-client-records/edit-client-records.component';
 
 
 const routes: Routes = [
@@ -56,6 +57,7 @@ const routes: Routes = [
   {path: "qcChecking", component: QcPanelComponent},
   {path: "inboundView", component: InBoundViewComponentComponent},
   {path: "editqc/:id", component: QcEditComponent},
+  {path: "editClientqc/:id", component: EditClientRecordsComponent},
   {path: "viewQcReports", component: QcRecordsViewComponent},
   {path: "QcReports", component: QcReportsComponent},
   {path: "QcRecordsClient", component: QcRecordsClientComponent},

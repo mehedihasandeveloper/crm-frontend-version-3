@@ -67,6 +67,8 @@ export class QcEditComponent implements OnInit {
       this.qcForm.value.courtesy + this.qcForm.value.holdProcess + this.qcForm.value.takingPermission +
       this.qcForm.value.acknowledgementAndFollowUp + this.qcForm.value.poorObjectionAndNegotiationSkill +
       this.qcForm.value.crm + this.qcForm.value.closing + this.qcForm.value.fatal;
+
+      this.qcForm.value.agentGrade = this.decideAgentGrade(this.qcForm.value.total);
   }
 
   onSubmit() {
@@ -83,6 +85,21 @@ export class QcEditComponent implements OnInit {
         
       }
     )
+  }
+
+  decideAgentGrade(total: number) {
+    if (total >= 90) {
+      return 'Exceed Expectation';
+
+    } else if (total >= 80) {
+      return 'Meet Expectation';
+
+    } else if (total >= 70) {
+      return 'Average Expectation';
+
+    } else {
+      return 'Below Expectation';
+    }
   }
 
 }

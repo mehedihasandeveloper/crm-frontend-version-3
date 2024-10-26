@@ -9,7 +9,7 @@ body {
   z-index: 1;
   top: 0;
   left: 0;
-  background-color: #005b96;
+  background-color: #0F5396;
   overflow-x: hidden;
   padding-top: 20px;
 }
@@ -62,13 +62,14 @@ body {
   bottom: 0; /* Position at the bottom of the text */
   height: 4px; /* Thickness of the stripe */
   width: 100%; /* Full width of the text */
-  background: linear-gradient(135deg, #005b96, #2d78bb); /* Gradient for the stripe */
+  // background: linear-gradient(135deg, #005b96, #2d78bb); /* Gradient for the stripe */
   z-index: -1; /* Place behind the text */
 }
 
 .fifo-tech {
   font-weight: bold;
-  font-size: 26px; /* Slightly larger for emphasis */
+  font-size: 22px;
+  font-style: italic; /* Slightly larger for emphasis */
 }
 
 .crm {

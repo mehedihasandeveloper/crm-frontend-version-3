@@ -39,4 +39,10 @@ export class QcRecordsClientComponent implements OnInit{
       console.error('Error fetching paginated agent list:', error);
     });
   }
+
+  deleteQc(id: any) {
+    this.http.deleteClientQc(id).subscribe((result: any) => {
+      this.ngOnInit();
+    })
+  }
 }

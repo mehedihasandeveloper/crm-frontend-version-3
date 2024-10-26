@@ -3,7 +3,6 @@ import { HttpService } from '../../services/http.service';
 import { Router } from '@angular/router';
 import { StorageService } from '../../services/storage.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { error } from 'node:console';
 
 @Component({
   selector: 'app-qc-panel',
@@ -308,8 +307,4 @@ export class QcPanelComponent implements OnInit {
       }
     )
   }
-
-
-
-
 }

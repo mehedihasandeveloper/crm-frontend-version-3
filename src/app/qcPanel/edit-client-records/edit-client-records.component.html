@@ -1,0 +1,238 @@
+<div class="card shadow mb-4 mt-5">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold">Editing Client QC Record</h6>
+    </div>
+    <div class="card-body">
+        <form [formGroup]="qcForm" (ngSubmit)="onSubmit()">
+            <table class="table table-hover table-bordered">
+                <thead>
+                    <tr>
+                        <th class="text-center">Quality Criteria</th>
+                        <th class="text-center">Marks</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                    <tr>
+                        <td>
+                            <label for="greetings" style="font-weight: 600;">Greetings
+                                <span class="text-muted ms-2">[Yes(0) / No(-5)]</span>
+                            </label>
+                        </td>
+                        <td>
+                            <input type="number" id="greetingsMarks" name="greetingsMarks" class="form-control" formControlName="greetingsMarks">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="liveliness" style="font-weight: 600;">Liveliness
+                                <span class="text-muted ms-2">[Yes(10) / Need Improvement(5) / No(0)]</span>
+                            </label>
+                        </td>
+                        <td>
+                            <input type="number" id="liveliness" name="liveliness" class="form-control"
+                            formControlName="livelinessMarks"   >
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="pronunciation" style="font-weight: 600;">Pronunciation
+                                <span class="text-muted ms-2">[Yes(10) / Need Improvement(5) / No(0)]</span>
+                            </label>
+                        </td>
+                        <td>
+                            <input type="number" id="pronunciation" name="pronunciation" class="form-control"
+                            formControlName="pronunciationMarks" >
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="mumbling" style="font-weight: 600;">Mumbling
+                                <span class="text-muted ms-2">[Yes(10) / Need Improvement(5) / No(0)]</span>
+                            </label>
+                        </td>
+                        <td>
+                            <input type="number" id="mumbling" name="mumbling" class="form-control"
+                            formControlName="mumblingMarks" >
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="pace" style="font-weight: 600;">Pace
+                                <span class="text-muted ms-2">[Yes(10) / Need Improvement(5) / No(0)]</span>
+                            </label>
+                        </td>
+                        <td>
+                            <input type="number" id="pace" name="pace" class="form-control"
+                            formControlName="paceMarks">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="pitch" style="font-weight: 600;">Pitch
+                                <span class="text-muted ms-2">[Yes(10) / Need Improvement(5) / No(0)]</span>
+                            </label>
+                        </td>
+                        <td>
+                            <input type="number" id="pitch" name="pitch" class="form-control"
+                            formControlName="pitchMarks"  >
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="courtesy" style="font-weight: 600;">Courtesy
+                                <span class="text-muted ms-2">[Yes(10) / Need Improvement(5) / No(0)]</span>
+                            </label>
+                        </td>
+                        <td>
+                            <input type="number" id="courtesy" name="courtesy" class="form-control"
+                            formControlName="courtesyMarks" >
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="holdProcess" style="font-weight: 600;">Hold Process
+                                <span class="text-muted ms-2">[Yes(0) / No(-5)]</span>
+                            </label>
+                        </td>
+                        <td>
+                            <input type="number" id="holdProcess" name="holdProcess" class="form-control"
+                            formControlName="holdProcessMarks" >
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="takingPermission" style="font-weight: 600;">Taking Permission
+                                <span class="text-muted ms-2">[Yes(10) / Need Improvement(5) / No(0)]</span>
+                            </label>
+                        </td>
+                        <td>
+                            <input type="number" id="takingPermission" name="takingPermission"
+                                class="form-control" formControlName="takingPermissionMarks">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="acknowledgementandfollowup" style="font-weight: 600;">Acknowledgement
+                                and
+                                follow-up
+                                <span class="text-muted ms-2">[Yes(10) / Need Improvement(5) / No(0)]</span>
+                            </label>
+                        </td>
+                        <td>
+                            <input type="number" id="acknowledgementandfollowup"
+                                name="acknowledgementandfollowup" class="form-control"
+                                formControlName="acknowledgementAndFollowUpMarks">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="poorobjectionandnegotiationskill" style="font-weight: 600;">Poor
+                                objection &
+                                Negotiation skill
+                                <span class="text-muted ms-2">[Yes(0.00) / Need Improvement(-10) /
+                                    No(-20.00)]</span>
+                            </label>
+                        </td>
+                        <td>
+                            <input type="number" id="poorobjectionandnegotiationskill"
+                                name="poorobjectionandnegotiationskill" class="form-control"
+                                formControlName="poorObjectionAndNegotiationSkillMarks" >
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="crm" style="font-weight: 600;">CRM
+                                <span class="text-muted ms-2"> [Yes(20) / Need Improvement(10) / No(0)]</span>
+                            </label>
+                        </td>
+                        <td>
+                            <input type="number" id="crm" name="crm" class="form-control"
+                            formControlName="crmMarks" >
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="closing" style="font-weight: 600;">Closing
+                                <span class="text-muted ms-2"> [Yes(0) / No(-5)]</span>
+                            </label>
+                        </td>
+                        <td>
+                            <input type="number" id="closing" name="closing" class="form-control"
+                            formControlName="closingMarks" >
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="fatal" style="font-weight: 600;">Fatal
+                                <span class="text-muted ms-2"> [Yes(-100) / No(0)]</span>
+                            </label>
+                        </td>
+                        <td>
+                            <input type="number" id="fatal" name="fatal" class="form-control"
+                            formControlName="fatalMarks" >
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="fatalreason" style="font-weight: 600;">Fatal Reason
+
+                            </label>
+                        </td>
+                        <td>
+                            <input type="text" id="fatalreason" name="fatalreason" class="form-control"
+                            formControlName="fatalReasonMarks"   >
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="easvoicematchedwithreport" style="font-weight: 600;">EAS voice matched
+                                with
+                                report ?
+
+                            </label>
+                        </td>
+                        <td>
+                            <input type="text" id="easvoicematchedwithreport" name="easvoicematchedwithreport"
+                                class="form-control" formControlName="easVoiceMatchedWithReportMarks">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="agentgrade" style="font-weight: 600;">Agent Grade
+
+                            </label>
+                        </td>
+                        <td>
+                            <input type="text" id="agentgrade" name="agentgrade" class="form-control"
+                            formControlName="agentGrade">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="suggestion" style="font-weight: 600;">Suggestion
+
+                            </label>
+                        </td>
+                        <td>
+                            <input type="text" id="suggestion" name="suggestion" class="form-control"
+                            formControlName="suggestionMarks">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight: bold;">Total</td>
+                        <td>
+                            <input type="number" class="form-control"  readonly>
+                        </td>
+                    </tr>
+            
+                </tbody>
+            </table>
+
+            <div class="text-end">
+                <button type="submit" class="btn btn-primary btn-sm" data-bs-toggle="modal"
+                    data-bs-target="#addNewModal">Update</button>
+            </div>
+        </form>
+    </div>
+</div>
