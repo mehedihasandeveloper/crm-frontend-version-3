@@ -39,7 +39,7 @@ const routes: Routes = [
   {path: 'question', component: QuestionComponent},
   {path: 'logicSetting', component: LogicSettingComponent},
   {path: 'leads', component: LeadsComponent},
-  {path: 'reports', component: ReportsComponent},
+  
   {path: "editCampaign/:id", component: EditCampaignComponent},
   {path: "createTable", component: CreateTableComponent},
   {path: "createQuestions", component: CreateQuestionsComponent},
@@ -61,6 +61,7 @@ const routes: Routes = [
   {path: "viewQcReports", component: QcRecordsViewComponent},
   {path: "QcReports", component: QcReportsComponent},
   {path: "QcRecordsClient", component: QcRecordsClientComponent},
+  {path: 'reports', component: ReportsComponent},
   {path: '', component: LoginPageComponent},
   // {path:'**', component: LoginPageComponent}
 ];

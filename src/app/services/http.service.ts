@@ -604,4 +604,24 @@ export class HttpService {
   getDashboardStats(): Observable<any> {
     return this.httpClient.get(this.apiUrl);
   }
+
+  getUniqueDatesForReportingInHouse(): Observable<string[]> {
+    return this.httpClient.get<string[]>(`${this.baseURL}/api/qcReport/unique-dates-download-reports-in-house`);
+  }
+
+  getUniqueDatesForReportingClient(): Observable<string[]> {
+    return this.httpClient.get<string[]>(`${this.baseURL}/api/qcReport/unique-dates-download-reports-client`);
+  }
+
+  getQcRecordsInHouse(date: string): Observable<any[]> {
+    return this.httpClient.get<any[]>(`${this.baseURL}/api/qcReport/get-all-qc-records-in-house-for-excel-print`, {
+      params: { date }
+    });
+  }
+
+  getQcRecordsClient(date: string): Observable<any[]> {
+    return this.httpClient.get<any[]>(`${this.baseURL}/api/qcReport/get-all-qc-records-client-for-excel-print`, {
+      params: { date }
+    });
+  }
 }
