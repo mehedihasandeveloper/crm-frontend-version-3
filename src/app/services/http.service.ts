@@ -624,4 +624,16 @@ export class HttpService {
       params: { date }
     });
   }
+
+  getAgentSummaries(callDate: string): Observable<any[]> {
+    const params = new HttpParams().set('callDate', callDate);
+    return this.httpClient.get<any[]>(`${this.baseURL}/api/qcReport/qc-report/summary`, { params });
+  }
+
+  getAgentPerformanceSummary(startDate: string, endDate: string) {
+    const params = new HttpParams()
+      .set('startDate', startDate)
+      .set('endDate', endDate);
+    return this.httpClient.get<any[]>(this.baseURL + '/api/qcReport/date-range-summary', { params });
+  }
 }

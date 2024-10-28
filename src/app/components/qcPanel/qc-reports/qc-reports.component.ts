@@ -30,10 +30,17 @@ export class QcReportsComponent implements OnInit {
     this.isReportSelected = true;
 
     if (this.selectedReport !== 'Monthly Qc Summary') {
-      if (this.selectedReport === 'Daily Qc Records (In-House)') {
+      if (
+        this.selectedReport === 'Daily Qc Records (In-House)' ||
+        this.selectedReport === 'Daily Qc Summary'
+      ) {
         this.http.getUniqueDatesForReportingInHouse().subscribe({
           next: (dates: string[]) => {
             this.dates = dates;
+            console.log(dates);
+
+            console.log(this.selectedReport);
+
             this.reportForm.get('date')?.setValue(''); // Reset date selection
           },
           error: (error) => {
@@ -55,12 +62,18 @@ export class QcReportsComponent implements OnInit {
   }
 
   exportReport() {
-    if (this.reportForm.value.reportName === 'Daily Qc Records (In-House)' || this.reportForm.value.reportName === 'Daily Qc Summary') {
+    if (this.selectedReport === 'Daily Qc Records (In-House)') {
       this.downloadExcelInHouse(this.reportForm.value.date);
-    } else if (
-      this.reportForm.value.reportName === 'Daily Qc Records (Client)'
-    ) {
+    } 
+    else if (this.reportForm.value.reportName === 'Daily Qc Records (Client)') 
+    {
       this.downloadExcelClient(this.reportForm.value.date);
+    } 
+    else if (this.selectedReport === 'Daily Qc Summary') 
+    {
+      this.downloadAgentSummariesExcel(this.reportForm.value.date);
+    }else{
+      this.downloadExcel(this.reportForm.value.startDate, this.reportForm.value.endDate);
     }
   }
 
@@ -79,10 +92,10 @@ export class QcReportsComponent implements OnInit {
         const orderedData = data.map((item) => ({
           'Call Date': item.callDate,
           'Agent Name': item.agentName,
-          'Id': item.agentId,
+          Id: item.agentId,
           'Campaign Name': item.campaignName,
           'Consumer Number': item.consumerNumber,
-          'Duration': item.duration,
+          Duration: item.duration,
           'Greetings ( শুভেচ্ছা ) [Yes(0)/No(-5)]':
             item['Greetings ( শুভেচ্ছা ) [Yes(0)/No(-5)]'],
           'Liveliness(10) [Yes(10)/Need Improvement(5)/ No(0)]':
@@ -113,9 +126,9 @@ export class QcReportsComponent implements OnInit {
           'Fatal [Yes(-100)/ No(0)]': item['Fatal [Yes(-100)/ No(0)]'],
           'Fatal Reason': item.fatalReason,
           'EAS voice matched with report?': item.easVoiceMatchedWithReport,
-          'Total': item.total,
+          Total: item.total,
           'Agent Grade': item.agentGrade,
-          'Suggestion': item.suggestion,
+          Suggestion: item.suggestion,
           'QC By': item.qcInspector,
         }));
 
@@ -147,10 +160,10 @@ export class QcReportsComponent implements OnInit {
         const orderedData = data.map((item) => ({
           'Call Date': item.callDate,
           'Agent Name': item.agentName,
-          'Id': item.agentId,
+          Id: item.agentId,
           'Campaign Name': item.campaignName,
           'Consumer Number': item.consumerNumber,
-          'Duration': item.duration,
+          Duration: item.duration,
           'Did agent use standard opening greeting?':
             item['Greetings ( শুভেচ্ছা ) [Yes(0)/No(-5)]'],
           'Was the quality of being active and enthusiastic exist in call?':
@@ -180,10 +193,10 @@ export class QcReportsComponent implements OnInit {
           'Did agent use unique closing?': item['Closing [Yes(0)/ No(-5)]'],
           'Fatal [Yes(-100)/ No(0)]': item['Fatal [Yes(-100)/ No(0)]'],
           'Fatal Reason': item.fatalReason,
-         'EAS voice matched with report?': item.easVoiceMatchedWithReport,
-          'Total': item.total,
+          'EAS voice matched with report?': item.easVoiceMatchedWithReport,
+          Total: item.total,
           'Agent Grade': item.agentGrade,
-          'Remarks': item.suggestion,
+          Remarks: item.suggestion,
           'QC By': item.qcInspector,
         }));
 
@@ -205,6 +218,64 @@ export class QcReportsComponent implements OnInit {
       error: (err) => {
         console.error('Error downloading QC records:', err);
       },
+    });
+  }
+
+  downloadAgentSummariesExcel(callDate: string) {
+    this.http.getAgentSummaries(callDate).subscribe({
+      next: (data) => {
+        const formattedData = data.map((item: any) => ({
+          'Agent Name': item.agentName,
+          'Agent Id': item.agentId,
+          Red: item.red,
+          Yellow: item.yellow,
+          Blue: item.blue,
+          Green: item.green,
+          Remarks: item.suggestions,
+        }));
+
+        // Create worksheet and workbook
+        const worksheet: XLSX.WorkSheet =
+          XLSX.utils.json_to_sheet(formattedData);
+        const workbook: XLSX.WorkBook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, 'Agent Summaries');
+
+        // Write to Excel and trigger download
+        const excelBuffer: any = XLSX.write(workbook, {
+          bookType: 'xlsx',
+          type: 'array',
+        });
+        const blob = new Blob([excelBuffer], {
+          type: 'application/octet-stream',
+        });
+        saveAs(blob, `Daily_Qc_Summary_${callDate}.xlsx`);
+      },
+      error: (err) => {
+        console.error('Error fetching summaries:', err);
+      },
+    });
+  }
+
+
+  downloadExcel(startDate: string, endDate: string) {
+    this.http.getAgentPerformanceSummary(startDate, endDate).subscribe((data) => {
+      const formattedData = data.map((item) => {
+        const row = {
+          'Agent Name': item.agentName,
+          'Agent Id': item.agentId,
+          ...item.dailyAverages,
+          'Sum': item.sum,
+          'Count': item.count,
+          'Average': item.average,
+        };
+        return row;
+      });
+
+      const worksheet = XLSX.utils.json_to_sheet(formattedData);
+      const workbook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(workbook, worksheet, 'Performance Summary');
+
+      XLSX.writeFile(workbook, `Monthly_Qc_Summary_${startDate}_to_${endDate}.xlsx`);
     });
   }
 }
