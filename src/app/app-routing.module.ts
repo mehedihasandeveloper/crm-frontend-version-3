@@ -29,41 +29,51 @@ import { QcRecordsViewComponent } from './components/qc-records-view/qc-records-
 import { QcReportsComponent } from './components/qcPanel/qc-reports/qc-reports.component';
 import { QcRecordsClientComponent } from './components/qcPanel/qc-records-client/qc-records-client.component';
 import { EditClientRecordsComponent } from './qcPanel/edit-client-records/edit-client-records.component';
+import { PerformanceReportComponent } from './components/agentPanel/performance-report/performance-report.component';
 
 
 const routes: Routes = [
-  {path: 'agents', component: AgentsComponent},
-  {path: 'campaign', component: CampaignComponent},
-  {path: 'dataTables', component: DataTablesComponent},
+
+  // Admin Pane Routing
   {path: 'dashboard', component: DashboardComponent},
-  {path: 'question', component: QuestionComponent},
-  {path: 'logicSetting', component: LogicSettingComponent},
-  {path: 'leads', component: LeadsComponent},
-  
+  {path: 'agents', component: AgentsComponent},
+  {path: "editAgent/:id", component: EditAgentComponent},
+  {path: 'campaign', component: CampaignComponent},
   {path: "editCampaign/:id", component: EditCampaignComponent},
+  {path: 'dataTables', component: DataTablesComponent},
   {path: "createTable", component: CreateTableComponent},
+  {path: 'question', component: QuestionComponent},
   {path: "createQuestions", component: CreateQuestionsComponent},
   {path: "editQuestion/:id", component: EditQuestionComponent},
-  {path: "editAgent/:id", component: EditAgentComponent},
-  {path: "generateLead", component: GenerateLeadsComponent},
-  {path: "reGenerateLead", component: ReGenerateComponent},
-  {path: "deleteLeads", component: DeleteLeadsComponent},
+  {path: 'logicSetting', component: LogicSettingComponent},
   {path: "logicManagement/:campaignName", component: LogicManagementComponent},
   {path: "setLogics", component: SetLogicsComponent},
   {path: "updateLogics", component: UpdateLogicComponent},
+  {path: 'leads', component: LeadsComponent},
+  {path: "generateLead", component: GenerateLeadsComponent},
+  {path: "reGenerateLead", component: ReGenerateComponent},
+  {path: "deleteLeads", component: DeleteLeadsComponent},
+  {path: 'reports', component: ReportsComponent},
+
+  // General
   {path: "login", component: LoginPageComponent},
+  {path: '', component: LoginPageComponent},
+  
+  // Agent Panel
   {path: "viewFullCRM", component: ViewFullCRMComponent},
   {path: "CRM", component: CRMComponent},
+  {path: "agent-performance", component: PerformanceReportComponent},
+
+  // QC Panel
   {path: "qcChecking", component: QcPanelComponent},
-  {path: "inboundView", component: InBoundViewComponentComponent},
   {path: "editqc/:id", component: QcEditComponent},
   {path: "editClientqc/:id", component: EditClientRecordsComponent},
   {path: "viewQcReports", component: QcRecordsViewComponent},
   {path: "QcReports", component: QcReportsComponent},
   {path: "QcRecordsClient", component: QcRecordsClientComponent},
-  {path: 'reports', component: ReportsComponent},
-  {path: '', component: LoginPageComponent},
-  // {path:'**', component: LoginPageComponent}
+
+  // {path: "inboundView", component: InBoundViewComponentComponent},
+
 ];
 
 

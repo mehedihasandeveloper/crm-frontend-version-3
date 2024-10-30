@@ -36,6 +36,8 @@ import { AdminQcViewComponent } from './components/admin-qc-view/admin-qc-view.c
 import { QcReportsComponent } from './components/qcPanel/qc-reports/qc-reports.component';
 import { QcRecordsClientComponent } from './components/qcPanel/qc-records-client/qc-records-client.component';
 import { EditClientRecordsComponent } from './qcPanel/edit-client-records/edit-client-records.component';
+import { PerformanceReportComponent } from './components/agentPanel/performance-report/performance-report.component';
+
 
 
 @NgModule({
@@ -72,8 +74,7 @@ import { EditClientRecordsComponent } from './qcPanel/edit-client-records/edit-c
     QcReportsComponent,
     QcRecordsClientComponent,
     EditClientRecordsComponent,
-   
-
+    PerformanceReportComponent
   ],
   imports: [
     BrowserModule,

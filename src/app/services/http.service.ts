@@ -636,4 +636,12 @@ export class HttpService {
       .set('endDate', endDate);
     return this.httpClient.get<any[]>(this.baseURL + '/api/qcReport/date-range-summary', { params });
   }
+
+
+  getQcRecordsByAgentId(agentId: string): Observable<any[]> {
+    return this.httpClient.get<any[]>(`${this.baseURL}/api/qcReport/list-of-qc-records-by-agent-id`, {
+      params: { agentId }
+    });
+  }
+
 }
