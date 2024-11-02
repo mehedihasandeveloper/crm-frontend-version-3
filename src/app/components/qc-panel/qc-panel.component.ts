@@ -38,6 +38,7 @@ export class QcPanelComponent implements OnInit {
   totalMarks: number = 0;
   agentGradeMarks: string = '';
   tickGreen = false;
+  selectedFileName: string | null = null;  // Holds the name of the file marked with a green tick
 
   constructor(public http: HttpService, private route: Router, private storageService: StorageService) {
     this.leadForm = new FormGroup({
@@ -61,14 +62,29 @@ export class QcPanelComponent implements OnInit {
 
   }
 
+  // playFile(fileName: string, agentId: string): void {
+  //   this.audioSource = null;
+  //   this.selectedAgentId = agentId;
+  //   const fullPath = `${this.date}/${fileName}`;
+  //   setTimeout(() => {
+  //     this.audioSource = `http://43.231.78.77:5010/download-mp3?fileName=${encodeURIComponent(fullPath)}`;
+  //   }, 50);
+  // }
+
   playFile(fileName: string, agentId: string): void {
     this.audioSource = null;
     this.selectedAgentId = agentId;
+    this.selectedFileName = fileName;  // Set the file name when playing
     const fullPath = `${this.date}/${fileName}`;
     setTimeout(() => {
       this.audioSource = `http://43.231.78.77:5010/download-mp3?fileName=${encodeURIComponent(fullPath)}`;
+      console.log(this.audioSource);
     }, 50);
-  }
+
+   
+    
+}
+
 
   searchFiles(): void {
     this.http.searchMP3Files(this.date, this.cellNumber, 0, 10).subscribe({
@@ -111,17 +127,31 @@ export class QcPanelComponent implements OnInit {
     console.log('Audio Duration:', this.selectedDuration);
   }
 
+  // assignAgentId(): void {
+  //   if (this.metadataLoaded) {
+  //     this.tickGreen = true;
+  //     alert("Successful Call Detected!");
+  //     console.log('Selected Agent ID:', this.selectedAgentId);
+  //     console.log('Selected Duration:', this.selectedDuration);
+  //   } else {
+  //     alert("Duration not available yet!");
+  //     console.log('Duration not available yet');
+  //   }
+  // }
+
   assignAgentId(): void {
-    if (this.metadataLoaded) {
+    if (this.metadataLoaded && this.selectedFileName) {  // Only proceed if metadata is loaded and a file is selected
       this.tickGreen = true;
       alert("Successful Call Detected!");
       console.log('Selected Agent ID:', this.selectedAgentId);
       console.log('Selected Duration:', this.selectedDuration);
+      console.log('Selected File Name:', this.selectedFileName);  // Log the selected file name
     } else {
       alert("Duration not available yet!");
-      console.log('Duration not available yet');
+      console.log('Duration not available yet or no file selected');
     }
-  }
+}
+
 
   getAllCampaign() {
     this.http.getAll().subscribe((result: any) => {
@@ -263,8 +293,55 @@ export class QcPanelComponent implements OnInit {
     }
   }
 
+  // submitReport() {
+  //   this.calculateTotal();
+  //   const reportData = {
+  //     ...this.form,
+  //     total: this.total,
+  //     callDate: this.date,
+  //     consumerNumber: this.cellNumber,
+  //     campaignName: this.campaignName,
+  //     qcInspector: this.username,
+  //     duration: this.selectedDuration,
+  //     agentId: this.selectedAgentId,
+  //     agentGrade: this.agentGrade
+
+  //   };
+
+  //   const reportDataMarks = {
+  //     ...this.form2,
+  //     total: this.totalMarks,
+  //     callDate: this.date,
+  //     consumerNumber: this.cellNumber,
+  //     campaignName: this.campaignName,
+  //     qcInspector: this.username,
+  //     duration: this.selectedDuration,
+  //     agentId: this.selectedAgentId,
+  //     agentGrade: this.agentGradeMarks
+  //   };
+
+  //   this.http.addQcReportForClient(reportDataMarks).subscribe(
+  //     (response) => {
+        
+  //       this.http.addQcReport(reportData).subscribe(
+  //         (response) => {       
+  //         },
+  //         (error) => {
+  //         }
+  //       );
+  //       alert('Report submitted successfully!');
+  //       this.route.navigateByUrl('/viewQcReports');
+  //     },
+  //     (error) => {
+  //       console.log(error);
+  //     }
+  //   )
+  // }
+
+
   submitReport() {
     this.calculateTotal();
+
     const reportData = {
       ...this.form,
       total: this.total,
@@ -275,36 +352,28 @@ export class QcPanelComponent implements OnInit {
       duration: this.selectedDuration,
       agentId: this.selectedAgentId,
       agentGrade: this.agentGrade
-
     };
 
-    const reportDataMarks = {
-      ...this.form2,
-      total: this.totalMarks,
-      callDate: this.date,
-      consumerNumber: this.cellNumber,
-      campaignName: this.campaignName,
-      qcInspector: this.username,
-      duration: this.selectedDuration,
-      agentId: this.selectedAgentId,
-      agentGrade: this.agentGradeMarks
-    };
+    this.http.addQcReport(reportData).subscribe(
+      (response: any) => {
+        // Submit file name with a green tick if it’s marked as successful
+        if (this.tickGreen && this.selectedFileName) {  
+          const reportFileData = {
+            qcReport: { id: response.id },
+            fileName: this.selectedFileName
+          };
 
-    this.http.addQcReportForClient(reportDataMarks).subscribe(
-      (response) => {
-        
-        this.http.addQcReport(reportData).subscribe(
-          (response) => {       
-          },
-          (error) => {
-          }
-        );
+          this.http.addReportFile(reportFileData).subscribe(
+            () => alert("File name stored successfully!"),
+            error => console.error("Error storing file name:", error)
+          );
+        }
+
         alert('Report submitted successfully!');
         this.route.navigateByUrl('/viewQcReports');
       },
-      (error) => {
-        console.log(error);
-      }
-    )
-  }
+      error => console.error(error)
+    );
+}
+
 }

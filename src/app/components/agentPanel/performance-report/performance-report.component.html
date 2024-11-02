@@ -23,30 +23,59 @@
             <th>QC Inspector</th>
             <th>Agreed?</th>
             <th>Raise Concern</th>
+            <th>Action</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let qc of qcList">
             <td>{{ qc.callDate }}</td>
             <td>{{ qc.consumerNumber }}</td>
-            <td></td>
+            <td>
+              <ng-container *ngIf="qc.fileName; else noFile">
+                <audio
+                  #audioPlayer
+                  [src]="
+                    'http://43.231.78.77:5010/download-mp3?fileName=' +
+                    encodeFileName(qc.fullPath)
+                  "
+                  preload="auto"
+                ></audio>
+                <button
+                  (click)="togglePlay(audioPlayer)"
+                  class="button-85 btn-sm"
+                >
+                  {{ audioPlayer.paused ? "Play" : "Pause" }}
+                </button>
+              </ng-container>
+              <ng-template #noFile>No audio file available</ng-template>
+            </td>
+
             <td>{{ qc.total }}</td>
             <td>{{ qc.suggestion }}</td>
             <td>{{ qc.qcInspector }}</td>
+            <!-- Agreed Dropdown -->
             <td>
               <select
-                name="dataTable_length"
-                class="form-select form-control-sm">
-                <option value="yes">Yes</option>
-                <option value="no">No</option>
+                [(ngModel)]="qc.agreed"
+                class="form-select form-control-sm"
+              >
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
               </select>
             </td>
-            <td>
+
+            <!-- Raise Concern Icon -->
+            <td
+              (click)="toggleRaiseConcern(qc)"
+              data-placement="top"
+              title="Raise Flag"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
                 height="24"
                 viewBox="0 0 24 24"
+                [class.concern-raised]="qc.raiseConcern"
                 class="element-class"
               >
                 <path
@@ -58,6 +87,19 @@
                   d="M4 21v-5.313m0 0c5.818-4.55 10.182 4.55 16 0V4.313c-5.818 4.55-10.182-4.55-16 0z"
                 />
               </svg>
+            </td>
+
+            <!-- Submit Review Action -->
+            <td
+              class="element-class"
+              data-toggle="tooltip"
+              data-placement="top"
+              title="Submit Review"
+            >
+              <i
+                class="fa-solid fa-circle-check fa-lg"
+                (click)="submitReview(qc)"
+              ></i>
             </td>
           </tr>
         </tbody>

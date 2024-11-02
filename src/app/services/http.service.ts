@@ -598,7 +598,10 @@ export class HttpService {
   }
 
   updateClientQc(qc: any) {
-    return this.httpClient.put(this.baseURL + '/api/qcReport/edit-Client-Qc', qc);
+    return this.httpClient.put(
+      this.baseURL + '/api/qcReport/edit-Client-Qc',
+      qc
+    );
   }
 
   getDashboardStats(): Observable<any> {
@@ -606,42 +609,80 @@ export class HttpService {
   }
 
   getUniqueDatesForReportingInHouse(): Observable<string[]> {
-    return this.httpClient.get<string[]>(`${this.baseURL}/api/qcReport/unique-dates-download-reports-in-house`);
+    return this.httpClient.get<string[]>(
+      `${this.baseURL}/api/qcReport/unique-dates-download-reports-in-house`
+    );
   }
 
   getUniqueDatesForReportingClient(): Observable<string[]> {
-    return this.httpClient.get<string[]>(`${this.baseURL}/api/qcReport/unique-dates-download-reports-client`);
+    return this.httpClient.get<string[]>(
+      `${this.baseURL}/api/qcReport/unique-dates-download-reports-client`
+    );
   }
 
   getQcRecordsInHouse(date: string): Observable<any[]> {
-    return this.httpClient.get<any[]>(`${this.baseURL}/api/qcReport/get-all-qc-records-in-house-for-excel-print`, {
-      params: { date }
-    });
+    return this.httpClient.get<any[]>(
+      `${this.baseURL}/api/qcReport/get-all-qc-records-in-house-for-excel-print`,
+      {
+        params: { date },
+      }
+    );
   }
 
   getQcRecordsClient(date: string): Observable<any[]> {
-    return this.httpClient.get<any[]>(`${this.baseURL}/api/qcReport/get-all-qc-records-client-for-excel-print`, {
-      params: { date }
-    });
+    return this.httpClient.get<any[]>(
+      `${this.baseURL}/api/qcReport/get-all-qc-records-client-for-excel-print`,
+      {
+        params: { date },
+      }
+    );
   }
 
   getAgentSummaries(callDate: string): Observable<any[]> {
     const params = new HttpParams().set('callDate', callDate);
-    return this.httpClient.get<any[]>(`${this.baseURL}/api/qcReport/qc-report/summary`, { params });
+    return this.httpClient.get<any[]>(
+      `${this.baseURL}/api/qcReport/qc-report/summary`,
+      { params }
+    );
   }
 
   getAgentPerformanceSummary(startDate: string, endDate: string) {
     const params = new HttpParams()
       .set('startDate', startDate)
       .set('endDate', endDate);
-    return this.httpClient.get<any[]>(this.baseURL + '/api/qcReport/date-range-summary', { params });
+    return this.httpClient.get<any[]>(
+      this.baseURL + '/api/qcReport/date-range-summary',
+      { params }
+    );
   }
-
 
   getQcRecordsByAgentId(agentId: string): Observable<any[]> {
-    return this.httpClient.get<any[]>(`${this.baseURL}/api/qcReport/list-of-qc-records-by-agent-id`, {
-      params: { agentId }
-    });
+    return this.httpClient.get<any[]>(
+      `${this.baseURL}/api/qcReport/list-of-qc-records-by-agent-id`,
+      {
+        params: { agentId },
+      }
+    );
   }
 
+  addReportFile(reportFileData: any) {
+    return this.httpClient.post(
+      `${this.baseURL}/api/qcReport/add-qc-report-file`,
+      reportFileData
+    );
+  }
+
+  // getAllReportFiles() {
+  //   return this.httpClient.get(`${this.baseURL}/api/qcReport/all-qc-report-file`);
+  // }
+
+  getAllReportFiles(): Observable<any[]> {
+    return this.httpClient.get<any[]>(`${this.baseURL}/api/qcReport/all-qc-report-file`);
+  }
+
+
+  submitReview(reviewData: any): Observable<any> {
+    return this.httpClient.post(`${this.baseURL}/api/qcReport/submit`, reviewData);
+  }
+  
 }
