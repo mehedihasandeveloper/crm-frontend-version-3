@@ -30,6 +30,7 @@ import { QcReportsComponent } from './components/qcPanel/qc-reports/qc-reports.c
 import { QcRecordsClientComponent } from './components/qcPanel/qc-records-client/qc-records-client.component';
 import { EditClientRecordsComponent } from './qcPanel/edit-client-records/edit-client-records.component';
 import { PerformanceReportComponent } from './components/agentPanel/performance-report/performance-report.component';
+import { ConcernRaisedComponent } from './qcPanel/concern-raised/concern-raised.component';
 
 
 const routes: Routes = [
@@ -71,6 +72,7 @@ const routes: Routes = [
   {path: "viewQcReports", component: QcRecordsViewComponent},
   {path: "QcReports", component: QcReportsComponent},
   {path: "QcRecordsClient", component: QcRecordsClientComponent},
+  {path: "flag-raised", component: ConcernRaisedComponent},
 
   // {path: "inboundView", component: InBoundViewComponentComponent},
 

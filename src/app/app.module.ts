@@ -37,6 +37,7 @@ import { QcReportsComponent } from './components/qcPanel/qc-reports/qc-reports.c
 import { QcRecordsClientComponent } from './components/qcPanel/qc-records-client/qc-records-client.component';
 import { EditClientRecordsComponent } from './qcPanel/edit-client-records/edit-client-records.component';
 import { PerformanceReportComponent } from './components/agentPanel/performance-report/performance-report.component';
+import { ConcernRaisedComponent } from './qcPanel/concern-raised/concern-raised.component';
 
 
 
@@ -74,7 +75,8 @@ import { PerformanceReportComponent } from './components/agentPanel/performance-
     QcReportsComponent,
     QcRecordsClientComponent,
     EditClientRecordsComponent,
-    PerformanceReportComponent
+    PerformanceReportComponent,
+    ConcernRaisedComponent
   ],
   imports: [
     BrowserModule,

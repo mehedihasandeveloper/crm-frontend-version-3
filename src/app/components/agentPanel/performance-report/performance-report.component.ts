@@ -94,7 +94,15 @@ agentId!: string | null;
   toggleRaiseConcern(qc: any): void {
     // Toggle the raiseConcern field
     qc.raiseConcern = !qc.raiseConcern;
+  
+    // Show notification based on the new status
+    if (qc.raiseConcern) {
+      alert("Concern Raised");
+    } else {
+      alert("Concern Removed");
+    }
   }
+  
 
   submitReview(qc: any): void {
     const reviewData = {
@@ -105,12 +113,14 @@ agentId!: string | null;
       qcInspector: qc.qcInspector,
       agreed: qc.agreed,
       raiseConcern: qc.raiseConcern,
+      qcId: qc.id
     };
 
     this.http.submitReview(reviewData).subscribe({
       next: (response) => {
         console.log('Review submitted successfully:', response);
         alert('Review submitted successfully!');
+        this.ngOnInit();
       },
       error: (error) => {
         console.error('Error submitting review:', error);
