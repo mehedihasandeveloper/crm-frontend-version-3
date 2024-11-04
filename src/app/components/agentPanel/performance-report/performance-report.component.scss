@@ -10,8 +10,6 @@
 }
 
 
-
-
 /* CSS */
 .button-85 {
   padding: 0.6em 2em;
@@ -88,4 +86,10 @@
 .concern-not-raised {
   fill: #666;
   opacity: 0.5;
+}
+
+.qc-date {
+  white-space: nowrap; /* Prevents the date from wrapping to the next line */
+  overflow: hidden;    /* Ensures any overflow is hidden */
+  text-overflow: ellipsis; /* Optionally adds an ellipsis if the text is too long */
 }

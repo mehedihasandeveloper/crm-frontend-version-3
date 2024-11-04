@@ -9,12 +9,17 @@ import { saveAs } from 'file-saver';
 export class CsvService {
 
   constructor(private http: HttpClient) { }
+  private agentURL = "https://crm.fifo-tech.com/api/file";
 
-  private agentURL = "http://localhost:8080/api/file";
+  private excelURL = "https://crm.fifo-tech.com/api/file/generateExcel";
 
-  private excelURL = "http://localhost:8080/api/file/generateExcel";
+  private excelFullReportURL = "https://crm.fifo-tech.com/api/file/generateFullReportExcel";
 
-  private excelFullReportURL = "http://localhost:8080/api/file/generateFullReportExcel";
+  // private agentURL = "http://localhost:8080/api/file";
+
+  // private excelURL = "http://localhost:8080/api/file/generateExcel";
+
+  // private excelFullReportURL = "http://localhost:8080/api/file/generateFullReportExcel";
 
 
   downloadCSV() {

@@ -11,7 +11,9 @@ import { catchError, map, Observable, throwError } from 'rxjs';
 import { Question } from '../../model/Question';
 import { Agent } from '../../model/Agent';
 
-const AUTH_API = 'http://localhost:8080/api/auth/';
+// const AUTH_API = 'http://localhost:8080/api/auth/';
+
+const AUTH_API = 'https://crm.fifo-tech.com/api/auth/';
 
 interface MP3FileInfo {
   dateTime: string;
@@ -38,34 +40,67 @@ const httpOptions = {
   providedIn: 'root',
 })
 export class HttpService {
-  private baseURL = 'http://localhost:8080';
 
-  private questionTableURL = 'http://localhost:8080/questions';
+  // private baseURL = 'http://localhost:8080';
 
-  private url = 'http://localhost:8080/cc';
+  // private questionTableURL = 'http://localhost:8080/questions';
 
-  private dataTableURL = 'http://localhost:8080/dt';
+  // private url = 'http://localhost:8080/cc';
 
-  private dynamicTableURL = 'http://localhost:8080/dynamic';
+  // private dataTableURL = 'http://localhost:8080/dt';
 
-  private agentURL = 'http://localhost:8080/api/ac';
+  // private dynamicTableURL = 'http://localhost:8080/dynamic';
 
-  private generateUrl = 'http://localhost:8080/dynamic/updateData';
+  // private agentURL = 'http://localhost:8080/api/ac';
 
-  private reGenerateUrl = 'http://localhost:8080/dynamic/reGenerateData';
+  // private generateUrl = 'http://localhost:8080/dynamic/updateData';
 
-  private deleteLeadsUrl = 'http://localhost:8080/dynamic/deleteLead';
+  // private reGenerateUrl = 'http://localhost:8080/dynamic/reGenerateData';
 
-  private getRowdynamicUrl =
-    'http://localhost:8080/dynamic/countNumberOfDataAvailable';
+  // private deleteLeadsUrl = 'http://localhost:8080/dynamic/deleteLead';
 
-  private addLogicsURL = 'http://localhost:8080/api/logic';
+  // private getRowdynamicUrl =
+  //   'http://localhost:8080/dynamic/countNumberOfDataAvailable';
 
-  private agentPanelURL = 'http://localhost:8080/api/ap';
+  // private addLogicsURL = 'http://localhost:8080/api/logic';
 
-  private dynamicUrl = 'http://localhost:8080/dynamic';
+  // private agentPanelURL = 'http://localhost:8080/api/ap';
+
+  // private dynamicUrl = 'http://localhost:8080/dynamic';
 
   private mp3Url = 'https://voicelog.fifo-tech.com/search';
+
+
+
+  // deployment
+
+  private baseURL = 'https://crm.fifo-tech.com';
+
+  private questionTableURL = "https://crm.fifo-tech.com/questions";
+
+  private url = "https://crm.fifo-tech.com/cc";
+
+  private dataTableURL = "https://crm.fifo-tech.com/dt";
+
+  private dynamicTableURL = "https://crm.fifo-tech.com/dynamic";
+
+  private agentURL = "https://crm.fifo-tech.com/api/ac";
+
+
+  private generateUrl = 'https://crm.fifo-tech.com/dynamic/updateData';
+
+  private reGenerateUrl = 'https://crm.fifo-tech.com/dynamic/reGenerateData';
+
+  private deleteLeadsUrl = 'https://crm.fifo-tech.com/dynamic/deleteLead';
+
+  private getRowdynamicUrl = 'https://crm.fifo-tech.com/dynamic/countNumberOfDataAvailable';
+
+  private addLogicsURL = 'https://crm.fifo-tech.com/api/logic';
+
+  private agentPanelURL = 'https://crm.fifo-tech.com/api/ap';
+
+  private dynamicUrl = 'https://crm.fifo-tech.com/dynamic';
+
 
   getQuestionListWithPagination(
     offset: number,
@@ -677,12 +712,30 @@ export class HttpService {
   // }
 
   getAllReportFiles(): Observable<any[]> {
-    return this.httpClient.get<any[]>(`${this.baseURL}/api/qcReport/all-qc-report-file`);
+    return this.httpClient.get<any[]>(
+      `${this.baseURL}/api/qcReport/all-qc-report-file`
+    );
   }
-
 
   submitReview(reviewData: any): Observable<any> {
-    return this.httpClient.post(`${this.baseURL}/api/qcReport/submit`, reviewData);
+    return this.httpClient.post(
+      `${this.baseURL}/api/qcReport/submit`,
+      reviewData
+    );
   }
-  
+
+  getAgentReviews(): Observable<any[]> {
+    return this.httpClient.get<any[]>(
+      `${this.baseURL}/api/qcReport/get-agent-reviews`
+    );
+  }
+
+  updateReviewStatus(id: number, updateData: any): Observable<any> {
+    const url = `${this.baseURL}/api/qcReport/agent-review/${id}`;
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+
+    return this.httpClient.put<any>(url, updateData, { headers });
+  }
 }

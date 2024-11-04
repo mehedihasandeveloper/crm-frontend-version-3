@@ -9,11 +9,11 @@ import { StorageService } from '../../../services/storage.service';
   styleUrl: './performance-report.component.scss',
 })
 export class PerformanceReportComponent implements OnInit {
-
-agentId!: string | null;
-  qcList!: any[];
-  reportFiles: any[] = []; // Store report files
+  agentId!: string | null;
+  qcList: any[] = [];
+  reportFiles: any[] = [];
   audioSource: string | null = null;
+  agentComments: { [id: number]: string } = {};
 
   constructor(
     public http: HttpService,
@@ -28,7 +28,9 @@ agentId!: string | null;
       this.http.getQcRecordsByAgentId(this.agentId).subscribe({
         next: (data) => {
           this.qcList = data;
-
+          this.qcList.forEach((qc) => {
+            this.agentComments[qc.id] = ''; 
+          });
           // Fetch all report files
           this.getAllReportFiles();
         },
@@ -45,23 +47,17 @@ agentId!: string | null;
     this.http.getAllReportFiles().subscribe({
       next: (files) => {
         this.reportFiles = files;
-  
         // Match report files with qcList
         this.qcList.forEach((qc) => {
           const matchedFile = this.reportFiles.find(
             (file) => file.qcReport.id === qc.id
           );
           if (matchedFile) {
-            qc.fileName = matchedFile.fileName; // Add fileName to qc
-  
-            // Set the date from qc.callDate directly
-            const date = qc.callDate; // Assuming qc.callDate is in a valid format (YYYY-MM-DD)
-  
-            // Create full path using the call date and fileName
-            const fullPath = `${date}/${matchedFile.fileName}`;
-            qc.fullPath = fullPath; // Optionally, add fullPath to qc for later use
+            qc.fileName = matchedFile.fileName;
+            const date = qc.callDate; 
+            qc.fullPath = `${date}/${matchedFile.fileName}`; 
           } else {
-            qc.fileName = null; // Handle case where no matching file is found
+            qc.fileName = null;
           }
         });
       },
@@ -70,12 +66,14 @@ agentId!: string | null;
       },
     });
   }
-  
+
   encodeFileName(filePath: string): string {
     return encodeURIComponent(filePath);
   }
 
   togglePlay(audioPlayer: HTMLAudioElement): void {
+    console.log(audioPlayer);
+    
     if (audioPlayer.paused) {
       audioPlayer.play();
     } else {
@@ -83,28 +81,19 @@ agentId!: string | null;
     }
   }
 
-  playFile(fileName: string): void {
-    const fullPath = fileName;  // Use fileName directly as fullPath
-    this.audioSource = `http://43.231.78.77:5010/download-mp3?fileName=${this.encodeFileName(fullPath)}`;
-  }
-
-  preventDownload(event: Event): void {
-    event.preventDefault(); // Prevents the right-click menu on the audio player
-  }
   toggleRaiseConcern(qc: any): void {
-    // Toggle the raiseConcern field
     qc.raiseConcern = !qc.raiseConcern;
-  
-    // Show notification based on the new status
     if (qc.raiseConcern) {
-      alert("Concern Raised");
+      alert('Concern Raised');
     } else {
-      alert("Concern Removed");
+      alert('Concern Removed');
     }
   }
-  
 
   submitReview(qc: any): void {
+    const agentComment = this.agentComments[qc.id];
+    console.log('Submitting Review for QC ID:', qc.id, 'with Comment:', agentComment);
+
     const reviewData = {
       callDate: qc.callDate,
       consumerNumber: qc.consumerNumber,
@@ -113,19 +102,22 @@ agentId!: string | null;
       qcInspector: qc.qcInspector,
       agreed: qc.agreed,
       raiseConcern: qc.raiseConcern,
-      qcId: qc.id
+      qcId: qc.id,
+      comment: agentComment || '', 
     };
+
+    console.log('Review Data:', reviewData); 
 
     this.http.submitReview(reviewData).subscribe({
       next: (response) => {
         console.log('Review submitted successfully:', response);
         alert('Review submitted successfully!');
-        this.ngOnInit();
+        this.ngOnInit(); // Refresh the data
       },
       error: (error) => {
         console.error('Error submitting review:', error);
         alert('Failed to submit review');
-      }
+      },
     });
   }
 }

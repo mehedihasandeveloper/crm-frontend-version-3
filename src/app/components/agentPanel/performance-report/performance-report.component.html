@@ -15,20 +15,21 @@
       <table class="table table-hover table-bordered">
         <thead>
           <tr>
-            <th>Date</th>
+            <th class="qc-date">Date</th>
             <th>Number</th>
             <th>Voice Log</th>
             <th>Marks</th>
-            <th>QC Comments</th>
+            <th>QC Comment</th>
             <th>QC Inspector</th>
             <th>Agreed?</th>
             <th>Raise Concern</th>
+            <th>Agent Comment</th>
             <th>Action</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let qc of qcList">
-            <td>{{ qc.callDate }}</td>
+            <td class="qc-date">{{ qc.callDate }}</td>
             <td>{{ qc.consumerNumber }}</td>
             <td>
               <ng-container *ngIf="qc.fileName; else noFile">
@@ -66,30 +67,41 @@
 
             <!-- Raise Concern Icon -->
             <td
-  (click)="toggleRaiseConcern(qc)"
-  data-placement="top"
-  title="Raise Flag"
->
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="24"
-    height="24"
-    viewBox="0 0 24 24"
-    [ngClass]="{ 'concern-raised': qc.raiseConcern, 'concern-not-raised': !qc.raiseConcern }"
-    class="element-class"
-  >
-    <path
-      fill="none"
-      stroke="#c80909"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      stroke-width="1.5"
-      d="M4 21v-5.313m0 0c5.818-4.55 10.182 4.55 16 0V4.313c-5.818 4.55-10.182-4.55-16 0z"
-    />
-  </svg>
-</td>
-
-
+              (click)="toggleRaiseConcern(qc)"
+              data-placement="top"
+              title="Raise Flag"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                [ngClass]="{
+                  'concern-raised': qc.raiseConcern,
+                  'concern-not-raised': !qc.raiseConcern
+                }"
+                class="element-class"
+              >
+                <path
+                  fill="none"
+                  stroke="#c80909"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1.5"
+                  d="M4 21v-5.313m0 0c5.818-4.55 10.182 4.55 16 0V4.313c-5.818 4.55-10.182-4.55-16 0z"
+                />
+              </svg>
+            </td>
+            <td>
+              <textarea
+                class="form-control"
+                id="agentComment_{{ qc.id }}"
+                rows="1"
+                [(ngModel)]="agentComments[qc.id]"  
+                placeholder="Enter your comment here" 
+              ></textarea>
+            </td>
+            
             <!-- Submit Review Action -->
             <td
               class="element-class"

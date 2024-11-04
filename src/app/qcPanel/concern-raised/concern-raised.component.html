@@ -1,13 +1,13 @@
-<h3 class="display-6 mt-5 mb-4 text-uppercase d-flex justify-content-between align-items-center gradient-text"
-    style="font-size: 30px;">
-    Raised Flags
-
+<h3
+  class="display-6 mt-5 mb-4 text-uppercase d-flex justify-content-between align-items-center gradient-text"
+  style="font-size: 30px"
+>
+  Raised Flags
 </h3>
-
 
 <div class="card shadow mb-4">
   <div class="card-header py-3">
-    <h6 class="m-0 font-weight-bold">Concerned  List</h6>
+    <h6 class="m-0 font-weight-bold">Concerned List</h6>
   </div>
 
   <div class="card-body">
@@ -17,20 +17,50 @@
           <tr>
             <th>Call Date</th>
             <th>Consumer Number</th>
+            <th style="width: 80px">Voice Log</th> 
             <th>Agreed?</th>
-            <th>Suggestion</th>
+            <th>QC Comment</th>
             <th>Total</th>
+            <th>Agent Comment</th>
+            <th style="width: 200px">Resolved Comment</th> 
             <th>Action</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+          <tr *ngFor="let review of agentReviews">
+            <td class="qc-date">{{ review.callDate }}</td>
+            <td>{{ review.consumerNumber }}</td>
+            <td>
+              <ng-container *ngIf="review.voiceLog; else noVoiceLog">
+                <audio
+                  #audioPlayer
+                  [src]="review.voiceLog"
+                  (error)="handleAudioError(review.voiceLog)"
+                  controls
+                  style="width: 150px;"
+                ></audio>
+              </ng-container>
+              <ng-template #noVoiceLog>No audio available</ng-template>
+            </td>
+            <td>{{ review.agreed }}</td>
+            <td>{{ review.suggestion }}</td>
+            <td>{{ review.total }}</td>
+            <td>{{ review.comment }}</td>
+            <td>
+              <textarea
+                class="form-control"
+                rows="1"
+                placeholder="Enter your comment here"
+              ></textarea>
+            </td>
+            <td class="mt-5">
+              <button
+                class="btn button-85 btn-sm"
+                (click)="performAction(review)"
+              >
+                Resolved
+              </button>
+            </td>
           </tr>
         </tbody>
       </table>
