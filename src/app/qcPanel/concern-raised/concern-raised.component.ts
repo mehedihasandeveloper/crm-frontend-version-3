@@ -43,7 +43,7 @@ export class ConcernRaisedComponent {
           if (matchedFile) {
             const date = review.callDate;  // Assumes `callDate` is in the required format (e.g., `2024-10-30`)
             const fileName = `${date}/${matchedFile.fileName}`;
-            review.voiceLog = `http://43.231.78.77:5010/download-mp3?fileName=${encodeURIComponent(fileName)}`;
+            review.voiceLog = `https://voicelog.fifo-tech.com/download-mp3?fileName=${encodeURIComponent(fileName)}`;
             console.log("Constructed voiceLog URL:", review.voiceLog);
           } else {
             review.voiceLog = null;  // No file available
