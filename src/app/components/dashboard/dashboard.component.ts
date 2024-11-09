@@ -23,7 +23,7 @@ export class DashboardComponent implements OnInit{
     this.fetchTotalInbound();
     this.fetchTotalOutbound();
     this.fetchCampaignData();
-    this.fetchDashboardData();
+    // this.fetchDashboardData();
     
   }
 

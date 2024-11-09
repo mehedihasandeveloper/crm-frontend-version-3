@@ -11,15 +11,15 @@ export class CsvService {
   constructor(private http: HttpClient) { }
   private agentURL = "https://crm.fifo-tech.com/api/file";
 
-  private excelURL = "https://crm.fifo-tech.com/api/file/generateExcel";
+  private excelURL = "https://crm.fifo-tech.com/api/file/generateCsv";
 
-  private excelFullReportURL = "https://crm.fifo-tech.com/api/file/generateFullReportExcel";
+  private excelFullReportURL = "https://crm.fifo-tech.com/api/file/generateFullReportCsv";
 
   // private agentURL = "http://localhost:8080/api/file";
 
-  // private excelURL = "http://localhost:8080/api/file/generateExcel";
+  // private excelURL = "http://localhost:8080/api/file/generateCsv";
 
-  // private excelFullReportURL = "http://localhost:8080/api/file/generateFullReportExcel";
+  // private excelFullReportURL = "http://localhost:8080/api/file/generateFullReportCsv";
 
 
   downloadCSV() {
@@ -38,7 +38,7 @@ export class CsvService {
      
       const blob = new Blob([response], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
 
-      saveAs(blob, 'for_d_report.xlsx');
+      saveAs(blob, 'for_d_report.csv');
     }, error => {
       console.error('Download error:', error);
     });
@@ -57,7 +57,7 @@ export class CsvService {
      
       const blob = new Blob([response], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
 
-      saveAs(blob, 'full_report.xlsx');
+      saveAs(blob, 'full_report.csv');
     }, error => {
       console.error('Download error:', error);
     });
