@@ -62,14 +62,6 @@ export class QcPanelComponent implements OnInit {
 
   }
 
-  // playFile(fileName: string, agentId: string): void {
-  //   this.audioSource = null;
-  //   this.selectedAgentId = agentId;
-  //   const fullPath = `${this.date}/${fileName}`;
-  //   setTimeout(() => {
-  //     this.audioSource = `http://43.231.78.77:5010/download-mp3?fileName=${encodeURIComponent(fullPath)}`;
-  //   }, 50);
-  // }
 
   playFile(fileName: string, agentId: string): void {
     this.audioSource = null;
@@ -77,7 +69,7 @@ export class QcPanelComponent implements OnInit {
     this.selectedFileName = fileName;  // Set the file name when playing
     const fullPath = `${this.date}/${fileName}`;
     setTimeout(() => {
-      this.audioSource = `http://43.231.78.77:5010/download-mp3?fileName=${encodeURIComponent(fullPath)}`;
+      this.audioSource = `http://43.231.78.77:5020/download-mp3?fileName=${encodeURIComponent(fullPath)}`;
       console.log(this.audioSource);
     }, 50);
 
@@ -111,7 +103,7 @@ export class QcPanelComponent implements OnInit {
   }
 
   loadAudioMetadata(fullPath: string, file: any): void {
-    const audio = new Audio(`http://43.231.78.77:5010/download-mp3?fileName=${encodeURIComponent(fullPath)}`);
+    const audio = new Audio(`http://43.231.78.77:5020/download-mp3?fileName=${encodeURIComponent(fullPath)}`);
     audio.addEventListener('loadedmetadata', () => {
       const duration = audio.duration;
       file.duration = Math.floor(duration);
